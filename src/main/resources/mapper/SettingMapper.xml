@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.order.mapper.SettingMapper">
+<!--    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"-->
+<!--           size="1024"-->
+<!--           eviction="LRU"-->
+<!--           flushInterval="120000"-->
+<!--           readOnly="false"/>-->
+
+    <insert id="addGeneral" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into settinggeneral
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                pendingperioddays,
+            </if>
+            <if test="checkedVisibletoallmembers != null and checkedVisibletoallmembers !=''">
+                checkedVisibletoallmembers,
+            </if>
+            <if test="defaultusers != null and defaultusers !=''">
+                defaultusers,
+            </if>
+            <if test="minimumpaymentamount != null and minimumpaymentamount !=''">
+                minimumpaymentamount,
+            </if>
+            <if test="checkedComments != null and checkedComments !=''">
+                checkedComments,
+            </if>
+            <if test="valueOfSwitch != null and valueOfSwitch !=''">
+                valueOfSwitch,
+            </if>
+            <if test="checkedEnableAmazonSites != null and checkedEnableAmazonSites !=''">
+                checkedEnableAmazonSites,
+            </if>
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                #{pendingperioddays},
+            </if>
+            <if test="checkedVisibletoallmembers != null and checkedVisibletoallmembers !=''">
+                #{checkedVisibletoallmembers},
+            </if>
+            <if test="defaultusers != null and defaultusers !=''">
+                #{defaultusers},
+            </if>
+            <if test="minimumpaymentamount != null and minimumpaymentamount !=''">
+                #{minimumpaymentamount},
+            </if>
+            <if test="checkedComments != null and checkedComments !=''">
+                #{checkedComments},
+            </if>
+            <if test="valueOfSwitch != null and valueOfSwitch !=''">
+                #{valueOfSwitch},
+            </if>
+            <if test="checkedEnableAmazonSites != null and checkedEnableAmazonSites !=''">
+                #{checkedEnableAmazonSites},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryGeneral" parameterType="com.example.order.entity.SettingGeneral" resultType="com.example.order.entity.SettingGeneral">
+        SELECT *
+        FROM settinggeneral
+        <where>
+            <if test="orgid != null and orgid != ''">
+                AND orgid = #{orgid}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateGeneral" parameterType="com.example.order.entity.SettingGeneral">
+        update settinggeneral
+        <trim prefix="set" suffixOverrides=",">
+            <if test="pendingperioddays != null and pendingperioddays != ''">
+                pendingperioddays =#{pendingperioddays},
+            </if>
+            <if test="checkedVisibletoallmembers != null and checkedVisibletoallmembers != ''">
+                checkedVisibletoallmembers =#{checkedVisibletoallmembers},
+            </if>
+            <if test="defaultusers != null">
+                defaultusers =#{defaultusers},
+            </if>
+            <if test="minimumpaymentamount != null and minimumpaymentamount != ''">
+                minimumpaymentamount =#{minimumpaymentamount},
+            </if>
+            <if test="checkedComments != null and checkedComments != ''">
+                checkedComments =#{checkedComments},
+            </if>
+            <if test="valueOfSwitch != null and valueOfSwitch != ''">
+                valueOfSwitch =#{valueOfSwitch},
+            </if>
+            <if test="checkedEnableAmazonSites != null and checkedEnableAmazonSites != ''">
+                checkedEnableAmazonSites =#{checkedEnableAmazonSites},
+            </if>
+            <if test="orgid != null and orgid != ''">
+                orgid =#{orgid},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != ''">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <select id="queryExcelpackagesLastOne" resultType="com.example.order.entity.ExcelPackages">
+        SELECT
+        *
+        FROM
+        excelpackages
+        <where>
+            <if test="tracking != null">
+                AND tracking = #{tracking}
+            </if>
+            <if test="upc != null">
+                AND upc = #{upc}
+            </if>
+        </where>
+        ORDER BY
+        id desc
+    </select>
+
+    <insert id="addExcelpackages" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into excelpackages
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="tracking != null and tracking !=''">
+                tracking,
+            </if>
+            <if test="orgid != null">
+                orgid,
+            </if>
+            <if test="upc != null and upc !=''">
+                upc,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="usedquantity != null">
+                usedquantity,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="site != null and site !=''">
+                site,
+            </if>
+            <if test="repeatquantity != null">
+                repeatquantity,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="tracking != null and tracking !=''">
+                #{tracking},
+            </if>
+            <if test="orgid != null">
+                #{orgid},
+            </if>
+            <if test="upc != null and upc !=''">
+                #{upc},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="usedquantity != null">
+                #{usedquantity},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="site != null and site !=''">
+                #{site},
+            </if>
+            <if test="repeatquantity != null">
+                #{repeatquantity},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateExcelpackages" parameterType="com.example.order.entity.ExcelPackages">
+        update excelpackages
+        <trim prefix="set" suffixOverrides=",">
+            <if test="tracking != null and tracking != ''">
+                tracking =#{tracking},
+            </if>
+            <if test="orgid != null">
+                orgid =#{orgid},
+            </if>
+            <if test="upc != null and upc != ''">
+                upc =#{upc},
+            </if>
+            <if test="quantity != null">
+                quantity =#{quantity},
+            </if>
+            <if test="usedquantity != null">
+                usedquantity =#{usedquantity},
+            </if>
+            <if test="site != null and site != ''">
+                site =#{site},
+            </if>
+            <if test="repeatquantity != null">
+                repeatquantity =#{repeatquantity},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <select id="queryIdExcelpackages" resultType="Map">
+        SELECT
+        usedquantity,
+        version
+        FROM
+        excelpackages
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateExcelpackagesLock" parameterType="com.example.order.entity.ExcelPackages">
+        update excelpackages
+        <trim prefix="set" suffixOverrides=",">
+            <if test="version != null">
+                version=#{version}+ 1,
+            </if>
+            <if test="tracking != null and tracking != ''">
+                tracking =#{tracking},
+            </if>
+            <if test="upc != null and upc != ''">
+                upc =#{upc},
+            </if>
+            <if test="quantity != null">
+                quantity =#{quantity},
+            </if>
+            <if test="usedquantity != null">
+                usedquantity =#{usedquantity},
+            </if>
+            <if test="site != null and site != ''">
+                site =#{site},
+            </if>
+            <if test="repeatquantity != null">
+                repeatquantity =#{repeatquantity},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != ''">
+                AND id =#{id}
+            </if>
+            <if test="version != null">
+                AND version =#{version}
+            </if>
+        </where>
+    </update>
+</mapper>

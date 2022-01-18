@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <span>
+        Organization
+    </span>
+    <span th:text="${sellername}"></span>
+    <span>
+        requests a shipment
+    </span>
+</div>
+<div>
+    <span>Email: </span>
+    <span th:text="${email}"></span>
+</div>
+<br>
+<div>
+    <span>ID: </span>
+    <span th:text="${id}"></span>
+</div>
+<br>
+<div>
+    <span>Service type: </span>
+    <span th:text="${servicetype}"></span>
+</div>
+<br>
+<div>
+    <span>Other services: </span>
+    <span th:text="${otherservices}"></span>
+</div>
+<br>
+<div>
+    <span>Package quantity: </span>
+    <span th:text="${packagequantity}"></span>
+</div>
+<br>
+<div>
+    ------------------------------
+</div>
+<div>
+    <span>Product: </span>
+    <span th:text="${product}"></span>
+</div>
+<br>
+<div>
+    <span>Quantity: </span>
+    <span th:text="${quantity}"></span>
+</div>
+<br>
+<div>
+    <span>Location: </span>
+    <span th:text="${location}"></span>
+</div>
+<br>
+<div>
+    <span>UPC: </span>
+    <span th:text="${upc}"></span>
+</div>
+<br>
+<div>
+    <a th:href="${url}">Download shipment label</a>
+</div>
+
+<div>
+    <span>Instruction:</span>
+    <span th:text="${instruction}"></span>
+</div>
+
+<div>
+    <span>
+        If you'd like to unsubscribe and stop receiving all these emails, please
+    </span>
+    <span>
+        <a th:href="${urlunsubscribe}"> unsubscribe </a>
+    </span>
+    <span>
+        here.
+    </span>
+</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+create
+哥那个Label ID，和tracking number，carrier应该都是选填，只有label和to ship是必须的，我看我们这里可以同时添加几个outbound，
+
+detail 显示bug 
+页面禁止点击关闭

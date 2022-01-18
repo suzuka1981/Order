@@ -1,0 +1,2211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.order.mapper.OfferMapper">
+    <!--    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"-->
+    <!--           size="1024"-->
+    <!--           eviction="LRU"-->
+    <!--           flushInterval="120000"-->
+    <!--           readOnly="false"/>-->
+
+    <insert id="addOffer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into offer
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+            <if test="offer != null and offer !=''">
+                offer,
+            </if>
+            <if test="bonus != null and bonus !=''">
+                bonus,
+            </if>
+            <if test="expirationdate != null">
+                expirationdate,
+            </if>
+            <if test="minselfstoragequantity != null">
+                minselfstoragequantity,
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                movetotop,
+            </if>
+            <if test="note != null and note !=''">
+                note,
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                notifymembers,
+            </if>
+            <if test="productid != null and productid !=''">
+                productid,
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                onlyshiptowarehouse,
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                pendingperioddays,
+            </if>
+            <if test="price != null and price !=''">
+                price,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="usedquantity != null">
+                usedquantity,
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                requiredservicetag,
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                visibletoallmembers,
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue,
+            </if>
+
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+            <if test="offer != null and offer !=''">
+                #{offer},
+            </if>
+            <if test="bonus != null and bonus !=''">
+                #{bonus},
+            </if>
+            <if test="expirationdate != null">
+                #{expirationdate},
+            </if>
+            <if test="minselfstoragequantity != null">
+                #{minselfstoragequantity},
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                #{movetotop},
+            </if>
+            <if test="note != null and note !=''">
+                #{note},
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                #{notifymembers},
+            </if>
+            <if test="productid != null and productid !=''">
+                #{productid},
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                #{onlyshiptowarehouse},
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                #{pendingperioddays},
+            </if>
+            <if test="price != null and price !=''">
+                #{price},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="usedquantity != null">
+                #{usedquantity},
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                #{requiredservicetag},
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                #{visibletoallmembers},
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                #{warehousesitesvalue},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="querylistOffer" resultMap="getquerylistOfferList">
+        SELECT
+        u.username,
+        u.name as sellerrelname,
+        o.id,
+        o.status,
+        o.version,
+        o.bonus,
+        o.offer,
+        o.expirationdate,
+        o.minselfstoragequantity,
+        o.movetotop,
+        o.note,
+        o.notifymembers,
+        o.productid,
+        o.onlyshiptowarehouse,
+        o.orgid,
+        o.pendingperioddays,
+        o.price,
+        o.quantity,
+        o.usedquantity,
+        o.requiredservicetag,
+        o.visibletoallmembers,
+        o.warehousesitesvalue,
+        o.createdate,
+        o.lastupdate,
+        whp.id AS wid,
+        whp.price AS wprice,
+        whp.conditionvalue,
+        whp.asin,
+        whp.sku,
+        whp.upc,
+        whp.checked,
+        whp.note AS wnote,
+        whp.createdate AS wcreatedate,
+        whp.lastupdate AS wlastupdate,
+        whp.orgid AS worgid,
+        whp.name,
+        whp.inbound
+        FROM
+        offer o
+        LEFT JOIN warehouseproduct whp ON o.productid = whp.id
+        LEFT JOIN user u ON u.id = o.orgid
+        <where>
+            <if test="orgid != null and orgid != ''">
+                And o.orgid in
+                <foreach item="item" index="index" collection="orgid" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR o.note LIKE CONCAT('%', #{searchinput},'%')
+                OR o.id LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+            <if test="pagetype ==  'active'">
+                and o.expirationdate <![CDATA[  >=  ]]> NOW()
+                AND (o.status is null
+                or o.status = ''
+                )
+            </if>
+            <if test="pagetype ==  'expired'">
+                and o.expirationdate <![CDATA[  <=  ]]> NOW()
+                AND (o.status is null
+                or o.status = ''
+                )
+            </if>
+            <if test="pagetype ==  'archived'">
+                AND o.status = 'archived'
+            </if>
+        </where>
+        ORDER BY lastupdate desc
+    </select>
+
+    <resultMap id="getquerylistOfferList" type="com.example.order.pojo.ProviderOfferPojo">
+        <id property="id" column="id"/>
+        <result property="version" column="version"/>
+        <result property="offerstatus" column="status"/>
+        <result property="sellerusername" column="username"/>
+        <result property="sellerrelname" column="sellerrelname"/>
+        <result property="bonus" column="bonus"/>
+        <result property="offer" column="offer"/>
+        <result property="note" column="note"/>
+        <result property="expirationdate" column="expirationdate"/>
+        <result property="minselfstoragequantity" column="minselfstoragequantity"/>
+        <result property="movetotop" column="movetotop"/>
+        <result property="notifymembers" column="notifymembers"/>
+        <result property="productid" column="productid"/>
+        <result property="onlyshiptowarehouse" column="onlyshiptowarehouse"/>
+        <result property="orgid" column="orgid"/>
+        <result property="pendingperioddays" column="pendingperioddays"/>
+        <result property="price" column="price"/>
+        <result property="quantity" column="quantity"/>
+        <result property="usedquantity" column="usedquantity"/>
+        <result property="requiredservicetag" column="requiredservicetag"/>
+        <result property="visibletoallmembers" column="visibletoallmembers"/>
+        <result property="warehousesitesvalue" column="warehousesitesvalue"/>
+        <result property="createdate" column="createdate"/>
+        <result property="lastupdate" column="lastupdate"/>
+        <!-- property表示集合类型属性名称，ofType表示集合中的对象是什么类型 -->
+        <collection property="warehouseProduct" ofType="com.example.order.entity.WarehouseProduct">
+            <result property="id" column="wid"/>
+            <result property="price" column="wprice"/>
+            <result property="conditionvalue" column="conditionvalue"/>
+            <result property="asin" column="asin"/>
+            <result property="sku" column="sku"/>
+            <result property="upc" column="upc"/>
+            <result property="checked" column="checked"/>
+            <result property="note" column="wnote"/>
+            <result property="createdate" column="wcreatedate"/>
+            <result property="lastupdate" column="wlastupdate"/>
+            <result property="orgid" column="worgid"/>
+            <result property="name" column="name"/>
+            <result property="inbound" column="inbound"/>
+        </collection>
+    </resultMap>
+
+
+    <update id="updateOffer" parameterType="com.example.order.entity.Offer">
+        update offer
+        <trim prefix="set" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                orgid=#{orgid},
+            </if>
+            <if test="offer != null and offer !=''">
+                offer=#{offer},
+            </if>
+            <if test="bonus != null and bonus !=''">
+                bonus=#{bonus},
+            </if>
+            <if test="expirationdate != null">
+                expirationdate=#{expirationdate},
+            </if>
+            <if test="minselfstoragequantity != null">
+                minselfstoragequantity=#{minselfstoragequantity},
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                movetotop=#{movetotop},
+            </if>
+            <if test="note != null and note !=''">
+                note=#{note},
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                notifymembers=#{notifymembers},
+            </if>
+            <if test="productid != null and productid !=''">
+                productid=#{productid},
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                onlyshiptowarehouse=#{onlyshiptowarehouse},
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                pendingperioddays=#{pendingperioddays},
+            </if>
+            <if test="price != null and price !=''">
+                price=#{price},
+            </if>
+            <if test="quantity != null">
+                quantity=#{quantity},
+            </if>
+            <if test="usedquantity != null">
+                usedquantity=#{usedquantity},
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                requiredservicetag=#{requiredservicetag},
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                visibletoallmembers=#{visibletoallmembers},
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue=#{warehousesitesvalue},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <update id="updateOfferLock" parameterType="com.example.order.entity.Offer">
+        update offer
+        <trim prefix="set" suffixOverrides=",">
+            <if test="version != null">
+                version=#{version}+ 1,
+            </if>
+            <if test="orgid != null">
+                orgid=#{orgid},
+            </if>
+            <if test="offer != null and offer !=''">
+                offer=#{offer},
+            </if>
+            <if test="bonus != null">
+                bonus=#{bonus},
+            </if>
+            <if test="expirationdate != null">
+                expirationdate=#{expirationdate},
+            </if>
+            <if test="minselfstoragequantity != null">
+                minselfstoragequantity=#{minselfstoragequantity},
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                movetotop=#{movetotop},
+            </if>
+            <if test="note != null and note !=''">
+                note=#{note},
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                notifymembers=#{notifymembers},
+            </if>
+            <if test="productid != null">
+                productid=#{productid},
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                onlyshiptowarehouse=#{onlyshiptowarehouse},
+            </if>
+            <if test="pendingperioddays != null">
+                pendingperioddays=#{pendingperioddays},
+            </if>
+            <if test="quantity != null">
+                quantity=#{quantity},
+            </if>
+            <if test="usedquantity != null">
+                usedquantity=#{usedquantity},
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                requiredservicetag=#{requiredservicetag},
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                visibletoallmembers=#{visibletoallmembers},
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue=#{warehousesitesvalue},
+            </if>
+
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue=#{warehousesitesvalue},
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue=#{warehousesitesvalue},
+            </if>
+
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != ''">
+                AND id =#{id}
+            </if>
+            <if test="version != null">
+                AND version =#{version}
+            </if>
+        </where>
+    </update>
+
+    <select id="queryIdOffer" resultType="Map">
+        SELECT
+        usedquantity,
+        version
+        FROM
+        offer
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addTaskOffer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into buyerstask
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="offerid != null and offerid !=''">
+                offerid,
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid,
+            </if>
+            <if test="offer != null and offer !=''">
+                offer,
+            </if>
+            <if test="bonus != null and bonus !=''">
+                bonus,
+            </if>
+            <if test="expirationdate != null">
+                expirationdate,
+            </if>
+            <if test="minselfstoragequantity != null">
+                minselfstoragequantity,
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                movetotop,
+            </if>
+            <if test="note != null and note !=''">
+                note,
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                notifymembers,
+            </if>
+            <if test="productid != null and productid !=''">
+                productid,
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                onlyshiptowarehouse,
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                pendingperioddays,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="usedquantity != null">
+                usedquantity,
+            </if>
+            <if test="subquantity != null">
+                subquantity,
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                requiredservicetag,
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                visibletoallmembers,
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue,
+            </if>
+
+            <if test="sendto != null and sendto !=''">
+                sendto,
+            </if>
+            <if test="status != null and status !=''">
+                status,
+            </if>
+
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="offerid != null and offerid !=''">
+                #{offerid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                #{selfid},
+            </if>
+            <if test="offer != null and offer !=''">
+                #{offer},
+            </if>
+            <if test="bonus != null and bonus !=''">
+                #{bonus},
+            </if>
+            <if test="expirationdate != null">
+                #{expirationdate},
+            </if>
+            <if test="minselfstoragequantity != null">
+                #{minselfstoragequantity},
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                #{movetotop},
+            </if>
+            <if test="note != null and note !=''">
+                #{note},
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                #{notifymembers},
+            </if>
+            <if test="productid != null and productid !=''">
+                #{productid},
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                #{onlyshiptowarehouse},
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                #{pendingperioddays},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="usedquantity != null">
+                #{usedquantity},
+            </if>
+            <if test="subquantity != null">
+                #{subquantity},
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                #{requiredservicetag},
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                #{visibletoallmembers},
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                #{warehousesitesvalue},
+            </if>
+            <if test="sendto != null and sendto !=''">
+                #{sendto},
+            </if>
+            <if test="status != null and status !=''">
+                #{status},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryTasklistOffer" resultMap="getquerytasklistOfferList">
+        SELECT
+        u.username,
+        u.name as sellerrelname,
+        su.username as selfname,
+        su.name as selfrelname,
+        off.status as offerstatus,
+        o.id,
+        o.offerid,
+        o.sendto,
+        o.status,
+        o.selfid,
+        o.subquantity,
+        o.bonus,
+        o.offer,
+        o.expirationdate,
+        o.minselfstoragequantity,
+        o.movetotop,
+        o.note,
+        o.notifymembers,
+        o.productid,
+        o.onlyshiptowarehouse,
+        o.orgid,
+        o.pendingperioddays,
+        o.price,
+        o.quantity,
+        o.usedquantity,
+        o.requiredservicetag,
+        o.visibletoallmembers,
+        o.warehousesitesvalue,
+        o.createdate,
+        o.lastupdate,
+        whp.id AS wid,
+        whp.price AS wprice,
+        whp.conditionvalue,
+        whp.asin,
+        whp.sku,
+        whp.upc,
+        whp.checked,
+        whp.note AS wnote,
+        whp.createdate AS wcreatedate,
+        whp.lastupdate AS wlastupdate,
+        whp.orgid AS worgid,
+        whp.NAME,
+        whp.inbound
+        FROM
+        buyerstask o
+        LEFT JOIN warehouseproduct whp ON o.productid = whp.id
+        LEFT JOIN offer off ON o.offerid = off.id
+        LEFT JOIN user u ON u.id = o.orgid
+        LEFT JOIN user su ON su.id = o.selfid
+        AND o.orgid = whp.orgid
+        <where>
+            And o.usedquantity >0
+            <if test="orgid != null">
+                And o.orgid in
+                <foreach item="item" index="index" collection="orgid" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="selfid != null">
+                AND o.selfid = #{selfid}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and o.createdate<![CDATA[  >=  ]]>#{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and o.createdate<![CDATA[  <=  ]]>#{endDate}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR o.note LIKE CONCAT('%', #{searchinput},'%')
+                OR o.id LIKE CONCAT('%', #{searchinput},'%')
+                OR su.username LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        ORDER BY lastupdate desc
+    </select>
+
+    <resultMap id="getquerytasklistOfferList" type="com.example.order.pojo.ProviderOfferPojo">
+        <id property="id" column="id"/>
+        <result property="offerid" column="offerid"/>
+        <result property="sendto" column="sendto"/>
+        <result property="status" column="status"/>
+        <result property="offerstatus" column="offerstatus"/>
+        <result property="selfid" column="selfid"/>
+        <result property="subquantity" column="subquantity"/>
+        <result property="sellerusername" column="username"/>
+        <result property="sellerrelname" column="sellerrelname"/>
+        <result property="selfname" column="selfname"/>
+        <result property="selfrelname" column="selfrelname"/>
+        <result property="bonus" column="bonus"/>
+        <result property="offer" column="offer"/>
+        <result property="note" column="note"/>
+        <result property="expirationdate" column="expirationdate"/>
+        <result property="minselfstoragequantity" column="minselfstoragequantity"/>
+        <result property="movetotop" column="movetotop"/>
+        <result property="notifymembers" column="notifymembers"/>
+        <result property="productid" column="productid"/>
+        <result property="onlyshiptowarehouse" column="onlyshiptowarehouse"/>
+        <result property="orgid" column="orgid"/>
+        <result property="pendingperioddays" column="pendingperioddays"/>
+        <result property="price" column="price"/>
+        <result property="wprice" column="wprice"/>
+        <result property="quantity" column="quantity"/>
+        <result property="usedquantity" column="usedquantity"/>
+        <result property="requiredservicetag" column="requiredservicetag"/>
+        <result property="visibletoallmembers" column="visibletoallmembers"/>
+        <result property="warehousesitesvalue" column="warehousesitesvalue"/>
+        <result property="createdate" column="createdate"/>
+        <result property="lastupdate" column="lastupdate"/>
+        <!-- property表示集合类型属性名称，ofType表示集合中的对象是什么类型 -->
+        <collection property="warehouseProduct" ofType="com.example.order.entity.WarehouseProduct">
+            <result property="id" column="wid"/>
+            <result property="price" column="wprice"/>
+            <result property="conditionvalue" column="conditionvalue"/>
+            <result property="asin" column="asin"/>
+            <result property="sku" column="sku"/>
+            <result property="upc" column="upc"/>
+            <result property="checked" column="checked"/>
+            <result property="note" column="wnote"/>
+            <result property="createdate" column="wcreatedate"/>
+            <result property="lastupdate" column="wlastupdate"/>
+            <result property="orgid" column="worgid"/>
+            <result property="name" column="name"/>
+            <result property="inbound" column="inbound"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateTaskOffer" parameterType="com.example.order.entity.BuyersTask">
+        update buyerstask
+        <trim prefix="set" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                orgid=#{orgid},
+            </if>
+            <if test="offerid != null and offerid !=''">
+                offerid=#{offerid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid=#{selfid},
+            </if>
+            <if test="offer != null and offer !=''">
+                offer=#{offer},
+            </if>
+            <if test="bonus != null and bonus !=''">
+                bonus=#{bonus},
+            </if>
+            <if test="expirationdate != null">
+                expirationdate=#{expirationdate},
+            </if>
+            <if test="minselfstoragequantity != null">
+                minselfstoragequantity=#{minselfstoragequantity},
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                movetotop=#{movetotop},
+            </if>
+            <if test="note != null and note !=''">
+                note=#{note},
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                notifymembers=#{notifymembers},
+            </if>
+            <if test="productid != null and productid !=''">
+                productid=#{productid},
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                onlyshiptowarehouse=#{onlyshiptowarehouse},
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                pendingperioddays=#{pendingperioddays},
+            </if>
+            <if test="price != null">
+                price=#{price},
+            </if>
+            <if test="quantity != null">
+                quantity=#{quantity},
+            </if>
+            <if test="usedquantity != null">
+                usedquantity=#{usedquantity},
+            </if>
+            <if test="subquantity != null">
+                subquantity=#{subquantity},
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                requiredservicetag=#{requiredservicetag},
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                visibletoallmembers=#{visibletoallmembers},
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue=#{warehousesitesvalue},
+            </if>
+
+            <if test="sendto != null and sendto !=''">
+                sendto=#{sendto},
+            </if>
+            <if test="status != null and status !=''">
+                status=#{status},
+            </if>
+
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate=#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+
+    <select id="queryIdTaskOffer" resultType="Map">
+        SELECT
+        usedquantity,
+        subquantity
+        FROM
+        buyerstask
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+        ORDER BY lastupdate desc
+    </select>
+
+    <insert id="addBuyersConfirm" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into buyersconfirm
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="buyersid != null">
+                buyersid,
+            </if>
+            <if test="paymentrequestid != null">
+                paymentrequestid,
+            </if>
+            <if test="methodsid != null">
+                methodsid,
+            </if>
+            <if test="sellerid != null">
+                sellerid,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="selfsite != null and selfsite !=''">
+                selfsite,
+            </if>
+            <if test="trackingnumber != null and trackingnumber !=''">
+                trackingnumber,
+            </if>
+            <if test="status != null and status !=''">
+                status,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="type != null and type !=''">
+                type,
+            </if>
+            <if test="historystatus != null and historystatus !=''">
+                historystatus,
+            </if>
+            <if test="note != null and note !=''">
+                note,
+            </if>
+            <if test="buyerstaskid != null">
+                buyerstaskid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="buyersid != null">
+                #{buyersid},
+            </if>
+            <if test="paymentrequestid != null">
+                #{paymentrequestid},
+            </if>
+            <if test="methodsid != null">
+                #{methodsid},
+            </if>
+            <if test="sellerid != null">
+                #{sellerid},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="selfsite != null and selfsite !=''">
+                #{selfsite},
+            </if>
+            <if test="trackingnumber != null and trackingnumber !=''">
+                #{trackingnumber},
+            </if>
+            <if test="status != null and status !=''">
+                #{status},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="type != null and type !=''">
+                #{type},
+            </if>
+            <if test="historystatus != null and historystatus !=''">
+                #{historystatus},
+            </if>
+            <if test="note != null and note !=''">
+                #{note},
+            </if>
+            <if test="buyerstaskid != null">
+                #{buyerstaskid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="addBuyersCancel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into buyerscancel
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="buyersid != null">
+                buyersid,
+            </if>
+            <if test="sellerid != null">
+                sellerid,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="selfsite != null and selfsite !=''">
+                selfsite,
+            </if>
+            <if test="trackingnumber != null and trackingnumber !=''">
+                trackingnumber,
+            </if>
+            <if test="status != null and status !=''">
+                status,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="type != null and type !=''">
+                type,
+            </if>
+            <if test="buyerstaskid != null">
+                buyerstaskid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="buyersid != null">
+                #{buyersid},
+            </if>
+            <if test="sellerid != null">
+                #{sellerid},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="selfsite != null and selfsite !=''">
+                #{selfsite},
+            </if>
+            <if test="trackingnumber != null and trackingnumber !=''">
+                #{trackingnumber},
+            </if>
+            <if test="status != null and status !=''">
+                #{status},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="type != null and type !=''">
+                #{type},
+            </if>
+            <if test="buyerstaskid != null">
+                #{buyerstaskid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryConfirmList" resultType="com.example.order.entity.BuyersConfirm">
+        SELECT
+        *
+        FROM
+        buyersconfirm
+        <where>
+            <if test="buyersid != null">
+                AND buyersid = #{buyersid}
+            </if>
+            <if test="sellerid != null">
+                AND sellerid = #{sellerid}
+            </if>
+            <if test="buyerstaskid != null">
+                AND buyerstaskid = #{buyerstaskid}
+            </if>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+        ORDER BY lastupdate desc
+    </select>
+
+    <insert id="addProposeOffer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into buyerspropose
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="offerid != null and offerid !=''">
+                offerid,
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid,
+            </if>
+            <if test="offer != null and offer !=''">
+                offer,
+            </if>
+            <if test="bonus != null and bonus !=''">
+                bonus,
+            </if>
+            <if test="expirationdate != null">
+                expirationdate,
+            </if>
+            <if test="minselfstoragequantity != null">
+                minselfstoragequantity,
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                movetotop,
+            </if>
+            <if test="note != null and note !=''">
+                note,
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                notifymembers,
+            </if>
+            <if test="productid != null and productid !=''">
+                productid,
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                onlyshiptowarehouse,
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                pendingperioddays,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="usedquantity != null">
+                usedquantity,
+            </if>
+            <if test="subquantity != null">
+                subquantity,
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                requiredservicetag,
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                visibletoallmembers,
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue,
+            </if>
+
+            <if test="sendto != null and sendto !=''">
+                sendto,
+            </if>
+            <if test="status != null and status !=''">
+                status,
+            </if>
+
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="offerid != null and offerid !=''">
+                #{offerid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                #{selfid},
+            </if>
+            <if test="offer != null and offer !=''">
+                #{offer},
+            </if>
+            <if test="bonus != null and bonus !=''">
+                #{bonus},
+            </if>
+            <if test="expirationdate != null">
+                #{expirationdate},
+            </if>
+            <if test="minselfstoragequantity != null">
+                #{minselfstoragequantity},
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                #{movetotop},
+            </if>
+            <if test="note != null and note !=''">
+                #{note},
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                #{notifymembers},
+            </if>
+            <if test="productid != null and productid !=''">
+                #{productid},
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                #{onlyshiptowarehouse},
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                #{pendingperioddays},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="usedquantity != null">
+                #{usedquantity},
+            </if>
+            <if test="subquantity != null">
+                #{subquantity},
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                #{requiredservicetag},
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                #{visibletoallmembers},
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                #{warehousesitesvalue},
+            </if>
+            <if test="sendto != null and sendto !=''">
+                #{sendto},
+            </if>
+            <if test="status != null and status !=''">
+                #{status},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+    <select id="querylistOfferProposed" resultMap="getquerytasklistOfferList">
+        SELECT
+        u.username,
+        u.name as sellerrelname,
+        uself.username as selfname,
+        uself.name as selfrelname,
+        o.id,
+        o.offerid,
+        o.sendto,
+        o.status,
+        o.selfid,
+        o.subquantity,
+        o.bonus,
+        o.offer,
+        o.expirationdate,
+        o.minselfstoragequantity,
+        o.movetotop,
+        o.note,
+        o.notifymembers,
+        o.productid,
+        o.onlyshiptowarehouse,
+        o.orgid,
+        o.pendingperioddays,
+        o.price,
+        o.quantity,
+        o.usedquantity,
+        o.requiredservicetag,
+        o.visibletoallmembers,
+        o.warehousesitesvalue,
+        o.createdate,
+        o.lastupdate,
+        whp.id AS wid,
+        whp.price AS wprice,
+        whp.conditionvalue,
+        whp.asin,
+        whp.sku,
+        whp.upc,
+        whp.checked,
+        whp.note AS wnote,
+        whp.createdate AS wcreatedate,
+        whp.lastupdate AS wlastupdate,
+        whp.orgid AS worgid,
+        whp.NAME,
+        whp.inbound
+        FROM
+        buyerspropose o
+        LEFT JOIN warehouseproduct whp ON o.productid = whp.id
+        LEFT JOIN user u ON u.id = o.orgid
+        LEFT JOIN user uself ON uself.id = o.selfid
+        <where>
+            And o.status = 'propose'
+            <if test="selfid != null and selfid != ''">
+                And o.selfid = #{selfid}
+            </if>
+            <if test="orgid != null">
+                And o.orgid in
+                <foreach item="item" index="index" collection="orgid" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR o.note LIKE CONCAT('%', #{searchinput},'%')
+                OR o.id LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        ORDER BY lastupdate desc
+    </select>
+
+    <update id="updateProposeOffer" parameterType="com.example.order.entity.BuyersTask">
+        update buyerspropose
+        <trim prefix="set" suffixOverrides=",">
+            <if test="orgid != null and orgid !=''">
+                orgid=#{orgid},
+            </if>
+            <if test="offerid != null and offerid !=''">
+                offerid=#{offerid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid=#{selfid},
+            </if>
+            <if test="offer != null and offer !=''">
+                offer=#{offer},
+            </if>
+            <if test="bonus != null and bonus !=''">
+                bonus=#{bonus},
+            </if>
+            <if test="expirationdate != null">
+                expirationdate=#{expirationdate},
+            </if>
+            <if test="minselfstoragequantity != null">
+                minselfstoragequantity=#{minselfstoragequantity},
+            </if>
+            <if test="movetotop != null and movetotop !=''">
+                movetotop=#{movetotop},
+            </if>
+            <if test="note != null and note !=''">
+                note=#{note},
+            </if>
+            <if test="notifymembers != null and notifymembers !=''">
+                notifymembers=#{notifymembers},
+            </if>
+            <if test="productid != null and productid !=''">
+                productid=#{productid},
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                onlyshiptowarehouse=#{onlyshiptowarehouse},
+            </if>
+            <if test="pendingperioddays != null and pendingperioddays !=''">
+                pendingperioddays=#{pendingperioddays},
+            </if>
+            <if test="price != null">
+                price=#{price},
+            </if>
+            <if test="quantity != null">
+                quantity=#{quantity},
+            </if>
+            <if test="usedquantity != null">
+                usedquantity=#{usedquantity},
+            </if>
+            <if test="subquantity != null">
+                subquantity=#{subquantity},
+            </if>
+            <if test="requiredservicetag != null and requiredservicetag !=''">
+                requiredservicetag=#{requiredservicetag},
+            </if>
+            <if test="visibletoallmembers != null and visibletoallmembers !=''">
+                visibletoallmembers=#{visibletoallmembers},
+            </if>
+            <if test="warehousesitesvalue != null and warehousesitesvalue !=''">
+                warehousesitesvalue=#{warehousesitesvalue},
+            </if>
+
+            <if test="sendto != null and sendto !=''">
+                sendto=#{sendto},
+            </if>
+            <if test="status != null and status !=''">
+                status=#{status},
+            </if>
+
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate=#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteProposeOffer">
+        delete
+        from buyerspropose
+        where id = #{id}
+    </delete>
+
+    <select id="queryListTaskHistory" resultMap="queryListTaskHistoryList">
+        SELECT
+        bc.id AS bid,
+        bc.buyersid,
+        bc.sellerid,
+        bc.quantity AS bquantity,
+        bc.selfsite,
+        bc.trackingnumber,
+        bc.`status` AS bstatus,
+        bc.price AS bprice,
+        bc.type,
+        bc.createdate AS bcreatedate,
+        bc.lastupdate AS blastupdate,
+        u.username,
+        u.name as sellerrelname,
+        su.username as selfusername,
+        su.name as selfrelname,
+        o.id,
+        o.offerid,
+        o.sendto,
+        o.`status`,
+        o.selfid,
+        o.subquantity,
+        o.bonus,
+        o.offer,
+        o.expirationdate,
+        o.minselfstoragequantity,
+        o.movetotop,
+        o.note,
+        o.notifymembers,
+        o.productid,
+        o.onlyshiptowarehouse,
+        o.orgid,
+        o.pendingperioddays,
+        o.price,
+        o.quantity,
+        o.usedquantity,
+        o.requiredservicetag,
+        o.visibletoallmembers,
+        o.warehousesitesvalue,
+        o.createdate,
+        o.lastupdate,
+        whp.id AS wid,
+        whp.price AS wprice,
+        whp.conditionvalue,
+        whp.asin,
+        whp.sku,
+        whp.upc,
+        whp.checked,
+        whp.note AS wnote,
+        whp.createdate AS wcreatedate,
+        whp.lastupdate AS wlastupdate,
+        whp.orgid AS worgid,
+        whp.NAME,
+        whp.inbound
+        FROM
+        buyersconfirm bc
+        LEFT JOIN buyerstask o ON bc.buyerstaskid = o.id
+        LEFT JOIN warehouseproduct whp ON o.productid = whp.id
+        LEFT JOIN `user` u ON u.id = o.orgid
+        LEFT JOIN `user` su ON su.id = o.selfid
+        AND bc.buyerstaskid = o.id
+        <where>
+            <if test="selfid != null">
+                AND o.selfid = #{selfid}
+            </if>
+            <if test="sendtotype != null  and sendtotype != ''">
+                AND bc.type = #{sendtotype}
+            </if>
+            <if test="orgid != null">
+                And o.orgid in
+                <foreach item="item" index="index" collection="orgid" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and bc.createdate<![CDATA[  >=  ]]>#{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and bc.createdate<![CDATA[  <=  ]]>#{endDate}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR o.offerid LIKE CONCAT('%', #{searchinput},'%')
+                OR u.username LIKE CONCAT('%', #{searchinput},'%')
+                OR bc.trackingnumber LIKE CONCAT('%', #{searchinput},'%')
+                OR bc.id LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        ORDER BY bc.createdate desc
+    </select>
+    <!--                 OR o.note LIKE CONCAT('%', #{searchinput},'%')-->
+
+    <select id="queryListTaskCacncel" resultMap="queryListTaskHistoryList">
+        SELECT
+        u.username,
+        u.name as sellerrelname,
+        su.username as selfusername,
+        su.name as selfrelname,
+        bc.id AS bid,
+        bc.buyersid,
+        bc.sellerid,
+        bc.quantity AS bquantity,
+        bc.selfsite,
+        bc.trackingnumber,
+        bc.`status` AS bstatus,
+        bc.price AS bprice,
+        bc.type,
+        bc.createdate AS bcreatedate,
+        bc.lastupdate AS blastupdate,
+        o.id,
+        o.offerid,
+        o.sendto,
+        o.`status`,
+        o.selfid,
+        o.subquantity,
+        o.bonus,
+        o.offer,
+        o.expirationdate,
+        o.minselfstoragequantity,
+        o.movetotop,
+        o.note,
+        o.notifymembers,
+        o.productid,
+        o.onlyshiptowarehouse,
+        o.orgid,
+        o.pendingperioddays,
+        o.price,
+        o.quantity,
+        o.usedquantity,
+        o.requiredservicetag,
+        o.visibletoallmembers,
+        o.warehousesitesvalue,
+        o.createdate,
+        o.lastupdate,
+        whp.id AS wid,
+        whp.price AS wprice,
+        whp.conditionvalue,
+        whp.asin,
+        whp.sku,
+        whp.upc,
+        whp.checked,
+        whp.note AS wnote,
+        whp.createdate AS wcreatedate,
+        whp.lastupdate AS wlastupdate,
+        whp.orgid AS worgid,
+        whp.NAME,
+        whp.inbound
+        FROM
+        buyerscancel bc
+        LEFT JOIN buyerstask o ON bc.buyerstaskid = o.id
+        LEFT JOIN warehouseproduct whp ON o.productid = whp.id
+        LEFT JOIN `user` u ON u.id = o.orgid
+        LEFT JOIN `user` su ON su.id = bc.buyersid
+        <where>
+            <if test="selfid != null">
+                AND o.selfid = #{selfid}
+            </if>
+            <if test="sendtotype != null  and sendtotype != ''">
+                AND bc.type = #{sendtotype}
+            </if>
+            <if test="orgid != null">
+                And o.orgid in
+                <foreach item="item" index="index" collection="orgid" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and bc.createdate<![CDATA[  >=  ]]>#{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and bc.createdate<![CDATA[  <=  ]]>#{endDate}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR o.offerid LIKE CONCAT('%', #{searchinput},'%')
+                OR u.username LIKE CONCAT('%', #{searchinput},'%')
+                OR bc.trackingnumber LIKE CONCAT('%', #{searchinput},'%')
+                OR bc.id LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        ORDER BY bc.createdate desc
+    </select>
+
+    <resultMap id="queryListTaskHistoryList" type="com.example.order.pojo.TaskHistoryPojo">
+        <id property="id" column="bid"/>
+        <result property="buyersid" column="buyersid"/>
+        <result property="sellerid" column="sellerid"/>
+        <result property="quantity" column="bquantity"/>
+        <result property="selfsite" column="selfsite"/>
+        <result property="trackingnumber" column="trackingnumber"/>
+        <result property="status" column="bstatus"/>
+        <result property="price" column="bprice"/>
+        <result property="type" column="type"/>
+        <result property="createdate" column="bcreatedate"/>
+        <result property="lastupdate" column="blastupdate"/>
+        <result property="username" column="username"/>
+        <result property="sellerrelname" column="sellerrelname"/>
+        <result property="selfusername" column="selfusername"/>
+        <result property="selfrelname" column="selfrelname"/>
+        <!-- property表示集合类型属性名称，ofType表示集合中的对象是什么类型 -->
+        <collection property="buyersTaskList" ofType="com.example.order.entity.BuyersTask">
+            <id property="id" column="id"/>
+            <result property="offerid" column="offerid"/>
+            <result property="sendto" column="sendto"/>
+            <result property="status" column="status"/>
+            <result property="selfid" column="selfid"/>
+            <result property="subquantity" column="subquantity"/>
+            <result property="bonus" column="bonus"/>
+            <result property="offer" column="offer"/>
+            <result property="note" column="note"/>
+            <result property="expirationdate" column="expirationdate"/>
+            <result property="minselfstoragequantity" column="minselfstoragequantity"/>
+            <result property="movetotop" column="movetotop"/>
+            <result property="notifymembers" column="notifymembers"/>
+            <result property="productid" column="productid"/>
+            <result property="onlyshiptowarehouse" column="onlyshiptowarehouse"/>
+            <result property="orgid" column="orgid"/>
+            <result property="pendingperioddays" column="pendingperioddays"/>
+            <result property="price" column="price"/>
+            <result property="quantity" column="quantity"/>
+            <result property="usedquantity" column="usedquantity"/>
+            <result property="requiredservicetag" column="requiredservicetag"/>
+            <result property="visibletoallmembers" column="visibletoallmembers"/>
+            <result property="warehousesitesvalue" column="warehousesitesvalue"/>
+            <result property="createdate" column="createdate"/>
+            <result property="lastupdate" column="lastupdate"/>
+        </collection>
+        <collection property="warehouseProduct" ofType="com.example.order.entity.WarehouseProduct">
+            <result property="id" column="wid"/>
+            <result property="price" column="wprice"/>
+            <result property="conditionvalue" column="conditionvalue"/>
+            <result property="asin" column="asin"/>
+            <result property="sku" column="sku"/>
+            <result property="upc" column="upc"/>
+            <result property="checked" column="checked"/>
+            <result property="note" column="wnote"/>
+            <result property="createdate" column="wcreatedate"/>
+            <result property="lastupdate" column="wlastupdate"/>
+            <result property="orgid" column="worgid"/>
+            <result property="name" column="name"/>
+            <result property="inbound" column="inbound"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryOffer" parameterType="com.example.order.entity.Offer"
+            resultType="com.example.order.entity.Offer">
+        SELECT *
+        FROM offer
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="orgid != null and orgid != ''">
+                AND orgid = #{orgid}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="queryListBuyersInventory" resultMap="queryListBuyersInventoryResult">
+        SELECT
+        whp.id,
+        bc.sellerid,
+        bc.buyersid,
+        u.username,
+        u.name as sellerrelname,
+        whp.conditionvalue,
+        whp.name,
+        whp.upc,
+        sum( bc.quantity ) as quantity
+        FROM
+        warehouseproduct whp
+        LEFT JOIN buyerstask bt ON bt.productid = whp.id
+        LEFT JOIN buyersconfirm bc ON bc.buyerstaskid = bt.id
+        LEFT JOIN `user` u ON u.id = bc.sellerid
+        <where>
+            <if test="sellerIdList != null">
+                And bc.sellerid in
+                <foreach item="item" index="index" collection="sellerIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="selfid != null">
+                AND bc.buyersid = #{selfid}
+            </if>
+            <if test="type != null">
+                AND bc.type = #{type}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                u.username LIKE CONCAT('%', #{searchinput},'%')
+                OR u.name LIKE CONCAT('%', #{searchinput},'%')
+                OR whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR whp.upc LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        GROUP BY
+        whp.NAME
+    </select>
+
+    <resultMap id="queryListBuyersInventoryResult" type="com.example.order.pojo.BuyersInventoryPojo">
+        <id property="id" column="id"/>
+        <result property="sellerid" column="sellerid"/>
+        <result property="buyersid" column="buyersid"/>
+        <result property="username" column="username"/>
+        <result property="sellerrelname" column="sellerrelname"/>
+        <result property="conditionvalue" column="conditionvalue"/>
+        <result property="name" column="name"/>
+        <result property="upc" column="upc"/>
+        <result property="quantity" column="quantity"/>
+    </resultMap>
+
+<!--    <if test="type != null">-->
+<!--        AND bc.type = #{type}-->
+<!--    </if>-->
+    <select id="queryListBuyersInventoryDetail" resultMap="queryListBuyersInventoryDetailResult">
+        SELECT
+        bc.id,
+        bc.quantity,
+        whp.conditionvalue,
+        whp.name,
+        whs.sitename,
+        whs.address1,
+
+        bc.type,
+        ep.tracking,
+        whsw.sitename as wsitename,
+        whsw.address1 as waddress1
+        FROM
+        warehouseproduct whp
+        LEFT JOIN buyerstask bt ON bt.productid = whp.id
+        LEFT JOIN buyersconfirm bc ON bc.buyerstaskid = bt.id
+        LEFT JOIN warehousesite whs ON bc.selfsite = whs.id
+        LEFT JOIN excelpackages ep ON ep.tracking= bc.trackingnumber
+        LEFT JOIN warehousesite whsw ON ep.site = whsw.contact
+        <where>
+            <if test="whpid != null">
+                AND whp.id = #{whpid}
+            </if>
+            <if test="sellerid != null">
+                AND bc.sellerid = #{sellerid}
+            </if>
+            <if test="buyersid != null">
+                AND bc.buyersid = #{buyersid}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whs.sitename LIKE CONCAT('%', #{searchinput},'%')
+                OR whs.address1 LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="queryListBuyersInventoryDetailResult" type="com.example.order.pojo.BuyersInventoryDetailPojo">
+        <id property="id" column="id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="conditionvalue" column="conditionvalue"/>
+        <result property="name" column="name"/>
+        <result property="sitename" column="sitename"/>
+        <result property="address1" column="address1"/>
+        <result property="type" column="type"/>
+        <result property="tracking" column="tracking"/>
+        <result property="wsitename" column="wsitename"/>
+        <result property="waddress1" column="waddress1"/>
+    </resultMap>
+
+
+    <update id="updateConfirm" parameterType="com.example.order.entity.BuyersConfirm">
+        update buyersconfirm
+        <trim prefix="set" suffixOverrides=",">
+            <if test="buyersid != null">
+                buyersid=#{buyersid},
+            </if>
+            <if test="sellerid != null">
+                sellerid=#{sellerid},
+            </if>
+            <if test="quantity != null">
+                quantity=#{quantity},
+            </if>
+            <if test="selfsite != null and selfsite !=''">
+                selfsite=#{selfsite},
+            </if>
+            <if test="trackingnumber != null and trackingnumber !=''">
+                trackingnumber=#{trackingnumber},
+            </if>
+            <if test="status != null and status !=''">
+                status=#{status},
+            </if>
+            <if test="price != null">
+                price=#{price},
+            </if>
+            <if test="type != null and type !=''">
+                type=#{type},
+            </if>
+            <if test="buyerstaskid != null">
+                buyerstaskid=#{buyerstaskid},
+            </if>
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+            <if test="historystatus != null">
+                historystatus =#{historystatus},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <select id="queryPendingTransactions" resultType="Map">
+        SELECT
+        bc.id,
+        bc.buyersid,
+        bc.historystatus,
+        bc.sellerid,
+        u.username,
+        u.name as sellerrelname,
+        bu.username as buyersusername,
+        bu.name as selfrelname,
+        whp.`name`,
+        bs.pendingperioddays,
+        bs.bonus,
+        bs.onlyshiptowarehouse,
+        bc.createdate,
+        bc.quantity,
+        bc.price,
+        bc.type
+        FROM
+        buyersconfirm bc
+        LEFT JOIN `user` u ON u.id = bc.sellerid
+        LEFT JOIN `user` bu ON bu.id = bc.buyersid
+        LEFT JOIN buyerstask bs ON bc.buyerstaskid = bs.id
+        LEFT JOIN warehouseproduct whp ON bs.productid = whp.id
+        <where>
+            <if test="sellerIdList != null">
+                And bc.sellerid in
+                <foreach item="item" index="index" collection="sellerIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="selfid != null">
+                AND bc.buyersid = #{selfid}
+            </if>
+            <if test="type == 'adjust'">
+                AND bc.historystatus = #{type}
+            </if>
+            <if test="type == 'PaymentSleep'">
+                AND bc.historystatus = #{type}
+            </if>
+            <if test="type == 'transactions'">
+                AND (bc.historystatus is null
+                or bc.historystatus = '')
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.`name` LIKE CONCAT('%', #{searchinput},'%')
+                OR bc.id LIKE CONCAT('%', #{searchinput},'%')
+                OR bu.username LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        <choose>
+            <when test="type == 'transactions'">
+                ORDER BY bc.id desc
+            </when>
+            <otherwise>
+                ORDER BY bc.id
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="queryTransactionHistoryLastOne" resultType="Map">
+        SELECT
+        id,
+        balance
+        FROM
+        transactionhistory
+        <where>
+            <if test="sellerid != null">
+                AND sellerid = #{sellerid}
+            </if>
+            <if test="buyersid != null">
+                AND buyersid = #{buyersid}
+            </if>
+        </where>
+        ORDER BY
+        id desc
+        LIMIT 1
+    </select>
+
+    <insert id="addtransactionhistory" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into transactionhistory
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="buyersconfirmid != null and buyersconfirmid !=''">
+                buyersconfirmid,
+            </if>
+            <if test="topaystatus != null and topaystatus !=''">
+                topaystatus,
+            </if>
+            <if test="buyersid != null">
+                buyersid,
+            </if>
+            <if test="sellerid != null">
+                sellerid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="sellerusername != null and sellerusername !=''">
+                sellerusername,
+            </if>
+            <if test="type != null and type !=''">
+                type,
+            </if>
+            <if test="productname != null and productname !=''">
+                productname,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                onlyshiptowarehouse,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="buyersconfirmid != null and buyersconfirmid !=''">
+                #{buyersconfirmid},
+            </if>
+            <if test="topaystatus != null and topaystatus !=''">
+                #{topaystatus},
+            </if>
+            <if test="buyersid != null">
+                #{buyersid},
+            </if>
+            <if test="sellerid != null">
+                #{sellerid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="sellerusername != null and sellerusername !=''">
+                #{sellerusername},
+            </if>
+            <if test="type != null and type !=''">
+                #{type},
+            </if>
+            <if test="productname != null and productname !=''">
+                #{productname},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="onlyshiptowarehouse != null and onlyshiptowarehouse !=''">
+                #{onlyshiptowarehouse},
+            </if>
+            <if test="amount != null">
+                #{amount},
+            </if>
+            <if test="balance != null">
+                #{balance},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryTransactionHistory" resultType="com.example.order.entity.TransactionHistory">
+        SELECT
+        th.*,
+        bc.historystatus,
+        bc.note,
+        bc.paymentrequestid,
+        bc.methodsid,
+        bc.lastupdate,
+        bpm.category,
+        bpm.displayname,
+        bpm.description,
+        u.username AS buyersname,
+        u.name AS buyersrelname,
+        su.username AS sellerusername,
+        su.name AS sellerrelname
+        FROM
+        transactionhistory th
+        LEFT JOIN buyersconfirm bc ON bc.id = th.buyersconfirmid
+        LEFT JOIN buyerspaymentmethod bpm ON bpm.id = bc.methodsid
+        LEFT JOIN user u ON u.id = th.buyersid
+        LEFT JOIN user su ON su.id = th.sellerid
+        <where>
+            <if test="sellerIdList != null">
+                And th.sellerid in
+                <foreach item="item" index="index" collection="sellerIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="selfid != null">
+                AND th.buyersid = #{selfid}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and th.createdate<![CDATA[  <=  ]]>#{endDate}
+            </if>
+            <if test="checked">
+                and (th.topaystatus is not null
+                or th.topaystatus != ''
+                )
+            </if>
+        </where>
+        ORDER BY th.id desc
+    </select>
+
+    <insert id="addPaymentRequest" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into paymentrequest
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="methodsid != null">
+                methodsid,
+            </if>
+            <if test="sellerid != null">
+                sellerid,
+            </if>
+            <if test="buyersid != null">
+                buyersid,
+            </if>
+            <if test="amount != null">
+                amount,
+            </if>
+            <if test="status != null and status !=''">
+                status,
+            </if>
+
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="methodsid != null">
+                #{methodsid},
+            </if>
+            <if test="sellerid != null">
+                #{sellerid},
+            </if>
+            <if test="buyersid != null">
+                #{buyersid},
+            </if>
+            <if test="amount != null">
+                #{amount},
+            </if>
+            <if test="status != null and status !=''">
+                #{status},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryPaymentRequest" resultType="com.example.order.entity.PaymentRequest">
+        SELECT
+        pq.*,
+        bpm.description,
+        bpm.displayname,
+        u.username as sellerusername,
+        u.name as sellerrelname,
+        su.username as buyersusername,
+        su.name as buyersrelname
+        FROM
+        paymentrequest pq
+        left join buyerspaymentmethod bpm on bpm.id = pq.methodsid
+        left join user u on u.id = pq.sellerid
+        left join user su on su.id = pq.buyersid
+        <where>
+            <if test="sellerIdList != null">
+                And pq.sellerid in
+                <foreach item="item" index="index" collection="sellerIdList" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="selfid != null">
+                AND pq.buyersid = #{selfid}
+            </if>
+            <if test="paymentrequestsstatus != null">
+                AND pq.status = #{paymentrequestsstatus}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                bpm.description LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        ORDER BY pq.id desc
+    </select>
+
+    <update id="updatePaymentRequest" parameterType="com.example.order.entity.PaymentRequest">
+        update paymentrequest
+        <trim prefix="set" suffixOverrides=",">
+            <if test="methodsid != null">
+                methodsid=#{methodsid},
+            </if>
+            <if test="sellerid != null">
+                sellerid=#{sellerid},
+            </if>
+            <if test="buyersid != null">
+                buyersid=#{buyersid},
+            </if>
+            <if test="amount != null">
+                amount=#{amount},
+            </if>
+            <if test="status != null and status !=''">
+                status=#{status},
+            </if>
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deletePaymentRequest">
+        delete
+        from paymentrequest
+        where id = #{id}
+    </delete>
+
+    <!--    and whs.id in (bs.warehousesitesvalue)-->
+    <select id="queryConfirmCheckWarehouseOld" resultType="Map">
+        SELECT whcp.*, bs.id as bsid
+        FROM
+        warehouseproduct whp
+        LEFT JOIN excelpackages ep ON whp.upc = ep.upc
+        LEFT JOIN warehousesite whs ON whs.contact = ep.site
+        LEFT JOIN buyerstask bs ON bs.productid = whp.id
+        left join warehouseconfirmpackages whcp on whcp.excelpackagesid = ep.id
+        <where>
+            <if test="tracking != null">
+                And ep.tracking in
+                <foreach item="item" index="index" collection="tracking" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+
+                And whcp.tracking in
+                <foreach item="item" index="index" collection="tracking" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+
+                and FIND_IN_SET(whs.id,bs.warehousesitesvalue)
+            </if>
+
+            <if test="buyerstaskid != null">
+                AND bs.id =#{buyerstaskid}
+            </if>
+        </where>
+        ORDER BY ep.lastupdate desc
+    </select>
+
+    <!--   ,
+            whs.sitename,
+            whs.address1,
+            whp.`name`,
+            bs.warehousesitesvalue,
+            whs.id as whsid -->
+    <select id="queryConfirmCheckWarehouse" resultMap="queryConfirmCheckWarehouseList">
+        SELECT
+        ep.*,
+        bs.id as bsid,
+        whcp.id as whcpid,
+        whcp.excelpackagesid,
+        whcp.buyersconfirmid,
+        whcp.quantity as whcpquantity,
+        whcp.tracking as whcptracking,
+        whcp.status as whcpstatus,
+        whcp.createdate as whcpcreatedate,
+        whcp.lastupdate as whcplastupdate
+        FROM
+        warehouseproduct whp
+        LEFT JOIN excelpackages ep ON FIND_IN_SET(ep.upc,whp.upc)
+        LEFT JOIN warehousesite whs ON whs.contact = ep.site
+        LEFT JOIN buyerstask bs ON bs.productid = whp.id
+        LEFT JOIN warehouseconfirmpackages whcp ON whcp.excelpackagesid = ep.id
+        <where>
+            <if test="tracking != null">
+                And (ep.tracking in
+                <foreach item="item" index="index" collection="tracking" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+
+                OR whcp.tracking in
+                <foreach item="item" index="index" collection="tracking" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+                )
+                and FIND_IN_SET(whs.id,bs.warehousesitesvalue)
+            </if>
+
+            <if test="buyerstaskid != null">
+                AND bs.id =#{buyerstaskid}
+            </if>
+        </where>
+        ORDER BY ep.lastupdate desc
+    </select>
+
+    <resultMap id="queryConfirmCheckWarehouseList" type="com.example.order.entity.ExcelPackages">
+        <id property="id" column="id"/>
+        <result property="tracking" column="tracking"/>
+        <result property="upc" column="upc"/>
+        <result property="quantity" column="quantity"/>
+        <result property="version" column="version"/>
+        <result property="usedquantity" column="usedquantity"/>
+        <result property="site" column="site"/>
+        <result property="repeatquantity" column="repeatquantity"/>
+        <result property="bsid" column="bsid"/>
+        <result property="createdate" column="createdate"/>
+        <result property="lastupdate" column="lastupdate"/>
+        <!-- property表示集合类型属性名称，ofType表示集合中的对象是什么类型 -->
+        <collection property="warehouseconfirmpackages" ofType="com.example.order.entity.WarehouseConfirmPackages">
+            <id property="id" column="whcpid"/>
+            <result property="excelpackagesid" column="excelpackagesid"/>
+            <result property="buyersconfirmid" column="buyersconfirmid"/>
+            <result property="quantity" column="whcpquantity"/>
+            <result property="tracking" column="whcptracking"/>
+            <result property="status" column="whcpstatus"/>
+            <result property="createdate" column="createdate"/>
+            <result property="lastupdate" column="lastupdate"/>
+        </collection>
+    </resultMap>
+</mapper>

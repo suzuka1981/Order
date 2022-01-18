@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.order.mapper.ProfileMapper">
+    <!--    <cache-->
+    <!--           size="1024"-->
+    <!--           eviction="FIFO"-->
+    <!--           flushInterval="60000"-->
+    <!--           readOnly="true"/>-->
+
+    <select id="getBuyersAndSeller" resultMap="getBuyersAndSellerList">
+        SELECT u.id,
+        u.username,
+        u.name,
+        u.`password`,
+        u.`status`,
+        u.type,
+        u.code,
+        b.id AS bid,
+        b.buyersid,
+        b.sellerid,
+        b.`status` as bstatus,
+        b.`note` as note,
+        useller.id AS uid,
+        useller.username as uusername,
+        useller.name as sellerrelname,
+        useller.`password` as upassword,
+        useller.`status` as ustatus,
+        useller.type as utype,
+        useller.code as ucode
+        FROM `user` u
+        LEFT JOIN buyersandsellers b ON u.id = b.buyersid
+        LEFT JOIN `user` useller ON useller.id = b.sellerid
+        <where>
+            <if test="username != null and username != ''">
+                AND u.username = #{username}
+            </if>
+            <if test="code != null and code != ''">
+                AND useller.code =#{code}
+            </if>
+            <if test="status != null and status != ''">
+                AND b.status =#{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSellerList" resultType="com.example.order.entity.User">
+        SELECT
+        u.id,
+        u.username,
+        u.name,
+        u.`password`,
+        bs.`status`,
+        bs.`id` as bsid,
+        u.type,
+        u.code
+        FROM
+        `user` u
+        LEFT JOIN buyersandsellers bs ON bs.buyersid = u.id
+        AND bs.sellerid = #{sellerid}
+        <where>
+            u.id IN ( SELECT b.buyersid FROM `user` u LEFT JOIN buyersandsellers b ON u.id = b.sellerid
+            <where>
+                <if test="username != null and username != ''">
+                    AND u.username = #{username}
+                </if>
+            </where>
+            )
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                u.id LIKE CONCAT('%', #{searchinput},'%')
+                OR u.username LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="getBuyersAndSellerList" type="com.example.order.pojo.BuyersAndSellerPojo">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="name" column="name"/>
+        <result property="password" column="password"/>
+        <result property="status" column="status"/>
+        <result property="type" column="type"/>
+        <result property="code" column="code"/>
+        <!-- property表示集合类型属性名称，ofType表示集合中的对象是什么类型 -->
+        <collection property="BuyersAndSellersList" ofType="com.example.order.entity.BuyersAndSellers">
+            <id property="id" column="bid"/>
+            <result property="buyersid" column="buyersid"/>
+            <result property="sellerid" column="sellerid"/>
+            <result property="status" column="bstatus"/>
+            <result property="note" column="note"/>
+        </collection>
+        <collection property="UserList" ofType="com.example.order.entity.User">
+            <id property="id" column="uid"/>
+            <result property="username" column="uusername"/>
+            <result property="name" column="sellerrelname"/>
+            <result property="password" column="upassword"/>
+            <result property="status" column="ustatus"/>
+            <result property="type" column="utype"/>
+            <result property="code" column="ucode"/>
+        </collection>
+    </resultMap>
+
+
+    <update id="updataJoinOrganization" parameterType="com.example.order.entity.BuyersAndSellers">
+        update buyersandsellers
+        <trim prefix="set" suffixOverrides=",">
+            <if test="buyersid != null">
+                buyersid =#{buyersid},
+            </if>
+            <if test="sellerid != null">
+                sellerid =#{sellerid},
+            </if>
+            <if test="status != null">
+                status =#{status},
+            </if>
+            <if test="note != null and note != ''">
+                note =#{note},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+            <if test="buyersid != null">
+                AND buyersid =#{buyersid}
+            </if>
+            <if test="sellerid != null">
+                AND sellerid =#{sellerid}
+            </if>
+        </where>
+    </update>
+
+    <insert id="insertJoinOrganization" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into buyersandsellers
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="buyersid != null and buyersid !=''">
+                buyersid,
+            </if>
+            <if test="sellerid != null and sellerid !=''">
+                sellerid,
+            </if>
+            <if test="status != null and status !=''">
+                status,
+            </if>
+            <if test="note != null and note !=''">
+                note,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="buyersid != null and buyersid !=''">
+                #{buyersid},
+            </if>
+            <if test="sellerid != null and sellerid !=''">
+                #{sellerid},
+            </if>
+            <if test="status != null and status !=''">
+                #{status},
+            </if>
+            <if test="note != null and note !=''">
+                #{note},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryBuyersAndSellers" parameterType="com.example.order.entity.BuyersAndSellers"
+            resultType="com.example.order.entity.BuyersAndSellers">
+        SELECT *
+        FROM buyersandsellers
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="buyersid != null and buyersid != ''">
+                AND buyersid = #{buyersid}
+            </if>
+            <if test="sellerid != null and sellerid != ''">
+                AND sellerid = #{sellerid}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="note != null and note != ''">
+                AND type = #{note}
+            </if>
+        </where>
+    </select>
+
+    <select id="getSellerSon" resultMap="getBuyersAndSellerList">
+        SELECT u.id,
+        u.username,
+        u.`password`,
+        u.`status`,
+        u.type,
+        u.code,
+        b.id AS bid,
+        b.buyersid,
+        b.sellerid,
+        b.`status` as bstatus,
+        b.`note` as note,
+        useller.id AS uid,
+        useller.username as uusername,
+        useller.`password` as upassword,
+        useller.`status` as ustatus,
+        useller.type as utype,
+        useller.code as ucode
+        FROM `user` u
+        LEFT JOIN buyersandsellers b ON u.id = b.sellerid
+        LEFT JOIN `user` useller ON useller.id = b.buyersid
+        <where>
+            <if test="username != null and username != ''">
+                AND u.username = #{username}
+            </if>
+            <if test="code != null and code != ''">
+                AND useller.code =#{code}
+            </if>
+            <if test="status != null and status != ''">
+                AND b.status =#{status}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateUser" parameterType="com.example.order.entity.User">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="username != null and username !=''">
+                username=#{username},
+            </if>
+            <if test="name != null and name !=''">
+                name=#{name},
+            </if>
+            <if test="password != null and password !=''">
+                password=#{password},
+            </if>
+            <if test="code != null and code !=''">
+                code=#{code},
+            </if>
+            <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="type != null">
+                type=#{type},
+            </if>
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null and id != ''">
+                AND id =#{id}
+            </if>
+            <if test="username != null and username !=''">
+                AND username = #{username}
+            </if>
+        </where>
+    </update>
+
+
+    <select id="queryLogin" parameterType="com.example.order.entity.User" resultType="com.example.order.entity.User">
+        SELECT *
+        FROM user
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+            <if test="username != null and username != ''">
+                AND username = #{username}
+            </if>
+            <if test="password != null and password != ''">
+                AND password = #{password}
+            </if>
+            <if test="code != null and code != ''">
+                AND code = #{code}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+            <if test="buyersAndSellersstatus != null and buyersAndSellersstatus != ''">
+                AND buyersAndSellersstatus = #{buyersAndSellersstatus}
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="registerUser" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into user
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="username != null and username !=''">
+                username,
+            </if>
+            <if test="name != null and name !=''">
+                name,
+            </if>
+            <if test="password != null and password !=''">
+                password,
+            </if>
+            <if test="code != null and code !=''">
+                code,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="username != null and username !=''">
+                #{username},
+            </if>
+            <if test="name != null and name !=''">
+                #{name},
+            </if>
+            <if test="password != null and password !=''">
+                #{password},
+            </if>
+            <if test="code != null and code !=''">
+                #{code},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="insertbuyerspaymentmethod" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into buyerspaymentmethod
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="category != null and category !=''">
+                category,
+            </if>
+            <if test="displayname != null and displayname !=''">
+                displayname,
+            </if>
+            <if test="description != null and description !=''">
+                description,
+            </if>
+            <if test="buyersid != null">
+                buyersid,
+            </if>
+
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="category != null and category !=''">
+                #{category},
+            </if>
+            <if test="displayname != null and displayname !=''">
+                #{displayname},
+            </if>
+            <if test="description != null and description !=''">
+                #{description},
+            </if>
+            <if test="buyersid != null">
+                #{buyersid},
+            </if>
+
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryBuyersPaymentMethod" resultType="com.example.order.entity.BuyersPaymentMethod">
+        SELECT
+        *
+        FROM
+        buyerspaymentmethod
+        <where>
+            <if test="buyersid != null">
+                AND buyersid = #{buyersid}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                category LIKE CONCAT('%', #{searchinput},'%')
+                OR displayname LIKE CONCAT('%', #{searchinput},'%')
+                OR description LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <update id="updatebuyerspaymentmethod" parameterType="com.example.order.entity.BuyersPaymentMethod">
+        update buyerspaymentmethod
+        <trim prefix="set" suffixOverrides=",">
+            <if test="category != null and category !=''">
+                category =#{category},
+            </if>
+            <if test="displayname != null and displayname !=''">
+                displayname =#{displayname},
+            </if>
+            <if test="description != null and description !=''">
+                description =#{description},
+            </if>
+            <if test="buyersid != null">
+                buyersid =#{buyersid},
+            </if>
+
+            <if test="createdate != null">
+                createdate =#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteJoinOrganization">
+        delete
+        from buyersandsellers
+        where id = #{id}
+    </delete>
+
+    <insert id="insertComments" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into comments
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="userid != null">
+                userid,
+            </if>
+            <if test="msgsourceid != null">
+                msgsourceid,
+            </if>
+            <if test="username != null and username !=''">
+                username,
+            </if>
+            <if test="message != null and message !=''">
+                message,
+            </if>
+            <if test="msgtype != null and msgtype !=''">
+                msgtype,
+            </if>
+            <if test="unreadstatus != null and unreadstatus !=''">
+                unreadstatus,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="userid != null">
+                #{userid},
+            </if>
+            <if test="msgsourceid != null">
+                #{msgsourceid},
+            </if>
+            <if test="username != null and username !=''">
+                #{username},
+            </if>
+            <if test="message != null and message !=''">
+                #{message},
+            </if>
+            <if test="msgtype != null and msgtype !=''">
+                #{msgtype},
+            </if>
+            <if test="unreadstatus != null and unreadstatus !=''">
+                #{unreadstatus},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryComments"
+            resultType="com.example.order.entity.Comments">
+        SELECT
+               cm.*,
+               u.name as userrelname
+        FROM comments cm
+        left join user u on u.id = cm.userid
+        <where>
+            <if test="msgtype != null">
+                AND cm.msgtype = #{msgtype}
+            </if>
+            <if test="msgsourceid != null">
+                AND cm.msgsourceid = #{msgsourceid}
+            </if>
+        </where>
+        order by createdate desc
+    </select>
+
+    <update id="updateComments" parameterType="com.example.order.entity.Comments">
+        update comments
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userid != null">
+                userid = #{userid},
+            </if>
+            <if test="msgsourceid != null">
+                msgsourceid = #{msgsourceid},
+            </if>
+            <if test="username != null and username !=''">
+                username = #{username},
+            </if>
+            <if test="message != null and message !=''">
+                message = #{message},
+            </if>
+            <if test="msgtype != null and msgtype !=''">
+                msgtype = #{msgtype},
+            </if>
+            <if test="unreadstatus != null and unreadstatus !=''">
+                unreadstatus = #{unreadstatus},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+</mapper>

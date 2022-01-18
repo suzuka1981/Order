@@ -1,0 +1,775 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.order.mapper.WarehouseMapper">
+    <!--    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"-->
+    <!--           size="1024"-->
+    <!--           eviction="LRU"-->
+    <!--           flushInterval="120000"-->
+    <!--           readOnly="false"/>-->
+
+    <insert id="addSite" parameterType="com.example.order.entity.WareHouseSite" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into warehousesite(
+        <trim prefix="" suffixOverrides=",">
+            <if test="sitename != null and sitename !=''">
+                sitename,
+            </if>
+            <if test="orgid != null">
+                orgid,
+            </if>
+            <if test="selfid != null">
+                selfid,
+            </if>
+            <if test="address1 != null and address1 !=''">
+                address1,
+            </if>
+            <if test="address2 != null and address2 !=''">
+                address2,
+            </if>
+            <if test="state != null and state !=''">
+                state,
+            </if>
+            <if test="city != null and city !=''">
+                city,
+            </if>
+            <if test="zip != null and zip !=''">
+                zip,
+            </if>
+            <if test="phone != null and phone !=''">
+                phone,
+            </if>
+            <if test="contact != null and contact !=''">
+                contact,
+            </if>
+
+            <if test="appkey != null and appkey !=''">
+                appkey,
+            </if>
+            <if test="signature != null and signature !=''">
+                signature,
+            </if>
+            <if test="mfyccid != null and mfyccid !=''">
+                mfyccid,
+            </if>
+            <if test="checked != null and checked !=''">
+                checked,
+            </if>
+
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+        </trim>
+        )
+        values(
+        <trim prefix="" suffixOverrides=",">
+            <if test="sitename != null and sitename !=''">
+                #{sitename},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="selfid != null">
+                #{selfid},
+            </if>
+            <if test="address1 != null and address1 !=''">
+                #{address1},
+            </if>
+            <if test="address2 != null and address2 !=''">
+                #{address2},
+            </if>
+            <if test="state != null and state !=''">
+                #{state},
+            </if>
+            <if test="city != null and city !=''">
+                #{city},
+            </if>
+            <if test="zip != null and zip !=''">
+                #{zip},
+            </if>
+            <if test="phone != null and phone !=''">
+                #{phone},
+            </if>
+            <if test="contact != null and contact !=''">
+                #{contact},
+            </if>
+
+            <if test="appkey != null and appkey !=''">
+                #{appkey},
+            </if>
+            <if test="signature != null and signature !=''">
+                #{signature},
+            </if>
+            <if test="mfyccid != null and mfyccid !=''">
+                #{mfyccid},
+            </if>
+            <if test="checked != null and checked !=''">
+                #{checked},
+            </if>
+
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryListPageWarehousesite" parameterType="Integer" resultType="com.example.order.entity.WareHouseSite">
+        SELECT *
+        FROM warehousesite
+        <where>
+            <if test="orgid != null">
+                AND orgid = #{orgid}
+            </if>
+            <if test="selfid != null">
+                AND selfid = #{selfid}
+            </if>
+        </where>
+        ORDER BY id desc
+    </select>
+
+    <insert id="addProduct" parameterType="com.example.order.entity.WarehouseProduct" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into warehouseproduct(
+        <trim prefix="" suffixOverrides=",">
+            <if test="orgid != null">
+                orgid,
+            </if>
+            <if test="price != null and price !=''">
+                price,
+            </if>
+            <if test="name != null and name !=''">
+                name,
+            </if>
+            <if test="conditionvalue != null and conditionvalue !=''">
+                conditionvalue,
+            </if>
+            <if test="asin != null and asin !=''">
+                asin,
+            </if>
+            <if test="sku != null and sku !=''">
+                sku,
+            </if>
+            <if test="upc != null and upc !=''">
+                upc,
+            </if>
+            <if test="checked != null and checked !=''">
+                checked,
+            </if>
+            <if test="note != null and note !=''">
+                note,
+            </if>
+            <if test="mfsku != null and mfsku !=''">
+                mfsku,
+            </if>
+
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+        </trim>
+        )
+        values(
+        <trim prefix="" suffixOverrides=",">
+            <if test="orgid != null">
+                #{orgid},
+            </if>
+            <if test="price != null and price !=''">
+                #{price},
+            </if>
+            <if test="name != null and name !=''">
+                #{name},
+            </if>
+            <if test="conditionvalue != null and conditionvalue !=''">
+                #{conditionvalue},
+            </if>
+            <if test="asin != null and asin !=''">
+                #{asin},
+            </if>
+            <if test="sku != null and sku !=''">
+                #{sku},
+            </if>
+            <if test="upc != null and upc !=''">
+                #{upc},
+            </if>
+            <if test="checked != null and checked !=''">
+                #{checked},
+            </if>
+            <if test="note != null and note !=''">
+                #{note},
+            </if>
+            <if test="mfsku != null and mfsku !=''">
+                #{mfsku},
+            </if>
+
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+<!--    SELECT-->
+<!--    whp.*,-->
+<!--    sum( bs.usedquantity ) AS suminbound,-->
+
+<!--    (-->
+<!--    SELECT-->
+<!--    sum( ep.quantity ) AS epquantity-->
+<!--    FROM-->
+<!--    warehouseproduct whpwh-->
+<!--    LEFT JOIN excelpackages ep ON FIND_IN_SET( ep.upc, whpwh.upc )-->
+<!--    WHERE-->
+<!--    whpwh.id = whp.id-->
+<!--    )) AS suminstock,-->
+
+<!--    (-->
+<!--    SELECT-->
+<!--    GROUP_CONCAT( quantity )-->
+<!--    FROM-->
+<!--    (-->
+<!--    SELECT-->
+<!--    bs.quantity-->
+<!--    FROM-->
+<!--    buyerstask bts-->
+<!--    LEFT JOIN buyersconfirm bs ON bs.buyerstaskid = bts.id-->
+<!--    LEFT JOIN `user` u ON u.id = bs.buyersid-->
+<!--    LEFT JOIN warehouseproduct whp ON whp.id = bts.productid-->
+<!--    LEFT JOIN excelpackages ep ON FIND_IN_SET( ep.upc, whp.upc )-->
+<!--    LEFT JOIN warehousesite whs ON whs.contact = ep.site-->
+<!--    LEFT JOIN warehousesite whsself ON whsself.id = bs.selfsite-->
+<!--    WHERE-->
+<!--    bts.productid = bs.productid-->
+<!--    AND bts.orgid = bs.sellerid-->
+<!--    AND bs.type = 'self'-->
+<!--    GROUP BY-->
+<!--    bs.id-->
+<!--    ORDER BY-->
+<!--    bs.lastupdate DESC-->
+<!--    ) AS temp-->
+<!--    ) AS quantitylist,-->
+
+<!--    sum( bc.quantity * bc.price ) AS sumvalue-->
+<!--    FROM-->
+<!--    warehouseproduct whp-->
+<!--    LEFT JOIN buyerstask bs on bs.productid = whp.id-->
+<!--    LEFT JOIN buyersconfirm bc on bc.buyerstaskid = bs.id-->
+<!--    <where>-->
+<!--        <if test="orgid != null and orgid != ''">-->
+<!--            AND whp.orgid = #{orgid}-->
+<!--        </if>-->
+<!--        <if test="status != null and status != ''">-->
+<!--            AND whp.status = 'archive'-->
+<!--        </if>-->
+<!--        <if test="status == null or status == ''">-->
+<!--            AND (whp.status is null-->
+<!--            or whp.status = '')-->
+<!--        </if>-->
+<!--        <if test="searchinput != null and searchinput != ''">-->
+<!--            AND(-->
+<!--            whp.name LIKE CONCAT('%', #{searchinput},'%')-->
+<!--            OR whp.upc LIKE CONCAT('%', #{searchinput},'%')-->
+<!--            OR whp.note LIKE CONCAT('%', #{searchinput},'%')-->
+<!--            OR whp.id LIKE CONCAT('%', #{searchinput},'%')-->
+<!--            )-->
+<!--        </if>-->
+<!--        <if test="endDate != null and endDate != ''">-->
+<!--            and whp.createdate<![CDATA[  <=  ]]>#{endDate}-->
+<!--        </if>-->
+<!--    </where>-->
+<!--    GROUP BY whp.id-->
+<!--    ORDER BY lastupdate desc-->
+    <select id="queryListPageProduct" parameterType="Integer" resultType="com.example.order.entity.WarehouseProduct">
+        SELECT
+        whp.*,
+        (
+        SELECT
+        sum( ep.quantity ) AS epquantity
+        FROM
+        warehouseproduct whpwh
+        LEFT JOIN excelpackages ep ON FIND_IN_SET( ep.upc, whpwh.upc )
+        WHERE
+        whpwh.id = whp.id
+        ) AS suminstock,
+        GROUP_CONCAT( temp.bsid,':',temp.quantity ) AS quantitylist,
+        GROUP_CONCAT( tmpinbound.id,':',tmpinbound.usedquantity) AS inboundlist,
+        sum( bc.quantity * bc.price ) AS sumvalue
+        FROM
+        warehouseproduct whp
+        LEFT JOIN buyerstask bs ON bs.productid = whp.id
+        LEFT JOIN buyersconfirm bc ON bc.buyerstaskid = bs.id
+
+        left join (
+        select bss.id,bss.usedquantity FROM buyerstask bss
+        ) as tmpinbound on tmpinbound.id = bs.id
+
+
+        LEFT JOIN (
+        SELECT
+        bs.id AS bsid,
+        bs.quantity AS quantity,
+        u.id  AS uid ,
+        bts.productid AS productid
+        FROM
+        buyerstask bts
+        LEFT JOIN buyersconfirm bs ON bs.buyerstaskid = bts.id
+        LEFT JOIN `user` u ON u.id = bs.buyersid
+        LEFT JOIN warehouseproduct whp ON whp.id = bts.productid
+        LEFT JOIN excelpackages ep ON FIND_IN_SET( ep.upc, whp.upc )
+        LEFT JOIN warehousesite whs ON whs.contact = ep.site
+        LEFT JOIN warehousesite whsself ON whsself.id = bs.selfsite
+        WHERE
+        bts.orgid = bs.sellerid
+        AND bs.type = 'self'
+        GROUP BY
+        bs.id
+        ORDER BY
+        bs.lastupdate DESC
+        ) AS temp ON temp.productid = bs.productid and uid = bc.buyersid
+        <where>
+            <if test="orgid != null and orgid != ''">
+                AND whp.orgid = #{orgid}
+            </if>
+            <if test="status != null and status != ''">
+                AND whp.status = 'archive'
+            </if>
+            <if test="status == null or status == ''">
+                AND (whp.status is null
+                or whp.status = '')
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR whp.upc LIKE CONCAT('%', #{searchinput},'%')
+                OR whp.note LIKE CONCAT('%', #{searchinput},'%')
+                OR whp.id LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and whp.createdate<![CDATA[  <=  ]]>#{endDate}
+            </if>
+        </where>
+        GROUP BY whp.id
+        ORDER BY lastupdate desc
+    </select>
+
+    <!--    <if test="selfid != null">-->
+    <!--        selfid =#{selfid},-->
+    <!--    </if>-->
+    <update id="updateProduct" parameterType="com.example.order.entity.WarehouseProduct">
+        update warehouseproduct
+        <trim prefix="set" suffixOverrides=",">
+            <if test="inbound != null and inbound != ''">
+                inbound =#{inbound},
+            </if>
+            <if test="orgid != null">
+                orgid =#{orgid},
+            </if>
+            <if test="price != null and price != ''">
+                price =#{price},
+            </if>
+            <if test="name != null and name != ''">
+                name =#{name},
+            </if>
+            <if test="conditionvalue != null and conditionvalue != ''">
+                conditionvalue =#{conditionvalue},
+            </if>
+            <if test="asin != null and asin != ''">
+                asin =#{asin},
+            </if>
+            <if test="sku != null and sku != ''">
+                sku =#{sku},
+            </if>
+            <if test="upc != null and upc != ''">
+                upc =#{upc},
+            </if>
+            <if test="checked != null and checked != ''">
+                checked =#{checked},
+            </if>
+            <if test="note != null and note != ''">
+                note =#{note},
+            </if>
+            <if test="mfsku != null and mfsku != ''">
+                mfsku =#{mfsku},
+            </if>
+            <if test="status != null">
+                status =#{status},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate =#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteSite">
+        delete
+        from warehousesite
+        where id = #{id}
+    </delete>
+
+    <update id="updateSite" parameterType="com.example.order.entity.WareHouseSite">
+        update warehousesite
+        <trim prefix="set" suffixOverrides=",">
+            <if test="sitename != null and sitename !=''">
+                sitename=#{sitename},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                orgid=#{orgid},
+            </if>
+            <if test="selfid != null">
+                selfid=#{selfid},
+            </if>
+            <if test="address1 != null and address1 !=''">
+                address1=#{address1},
+            </if>
+            <if test="address2 != null and address2 !=''">
+                address2=#{address2},
+            </if>
+            <if test="state != null and state !=''">
+                state=#{state},
+            </if>
+            <if test="city != null and city !=''">
+                city=#{city},
+            </if>
+            <if test="zip != null and zip !=''">
+                zip=#{zip},
+            </if>
+            <if test="phone != null and phone !=''">
+                phone=#{phone},
+            </if>
+            <if test="contact != null and contact !=''">
+                contact=#{contact},
+            </if>
+
+            <if test="appkey != null and appkey !=''">
+                appkey=#{appkey},
+            </if>
+            <if test="signature != null and signature !=''">
+                signature=#{signature},
+            </if>
+            <if test="mfyccid != null and mfyccid !=''">
+                mfyccid=#{mfyccid},
+            </if>
+            <if test="checked != null and checked !=''">
+                checked=#{checked},
+            </if>
+
+            <if test="lastupdate != null">
+                lastupdate=#{lastupdate},
+            </if>
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+            <if test="orgid != null">
+                AND orgid =#{orgid}
+            </if>
+        </where>
+    </update>
+    <!--    <foreach collection="list" close=")" open="(" item="listitem" separator=",">-->
+    <select id="queryListWarehousesiteById" resultType="com.example.order.entity.WareHouseSite">
+        SELECT *
+        FROM warehousesite
+        <where>
+            <if test="list != null and list != ''">
+                AND (
+                <foreach collection="list" item="listitem" index="index" open="" close="" separator="OR">
+                    id=#{listitem}
+                </foreach>
+                )
+            </if>
+            <if test="contact != null and contact != ''">
+                AND contact = #{contact}
+            </if>
+            <if test="orgid != null">
+                AND orgid = #{orgid}
+            </if>
+            <if test="mfyccid != null and mfyccid != ''">
+                AND mfyccid = #{mfyccid}
+            </if>
+            <if test="checked != null and checked != ''">
+                AND checked = #{checked}
+            </if>
+        </where>
+        ORDER BY lastupdate desc
+    </select>
+
+    <!--    and bs.type='warehouse'-->
+    <select id="queryConfirmOfProduct" resultType="com.example.order.entity.BuyersConfirm">
+        SELECT
+        bt.sendto,
+        u.username,
+        u.name,
+        bs.* ,
+        whs.sitename,
+        whs.address1,
+        whsself.sitename as selfsitename,
+        whsself.address1 as selfaddress1,
+        whp.id as productid,
+        whp.conditionvalue,
+        whp.name as productname,
+        whp.price as productprice,
+        whp.note as productnote
+        FROM
+        buyerstask bt
+        LEFT JOIN buyersconfirm bs ON bs.buyerstaskid = bt.id
+        LEFT JOIN `user` u ON u.id = bs.buyersid
+
+        left JOIN warehouseproduct whp on whp.id = bt.productid
+        LEFT JOIN excelpackages ep on FIND_IN_SET(ep.upc,whp.upc)
+        LEFT JOIN warehousesite whs on whs.contact = ep.site
+
+        LEFT JOIN warehousesite whsself on whsself.id = bs.selfsite
+        <where>
+            <if test="productid != null">
+                AND bt.productid = #{productid}
+            </if>
+            <if test="orgid != null">
+                AND bt.orgid = #{orgid}
+            </if>
+            and bt.orgid = bs.sellerid
+        </where>
+        GROUP BY bs.id
+        ORDER BY bs.lastupdate desc
+    </select>
+
+    <insert id="addWarehouseConfirmPackages" parameterType="com.example.order.entity.WarehouseConfirmPackages"
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into warehouseconfirmpackages(
+        <trim prefix="" suffixOverrides=",">
+            <if test="excelpackagesid != null">
+                excelpackagesid,
+            </if>
+            <if test="buyersconfirmid != null">
+                buyersconfirmid,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="tracking != null and tracking !=''">
+                tracking,
+            </if>
+            <if test="status != null and status !=''">
+                status,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+        </trim>
+        )
+        values(
+        <trim prefix="" suffixOverrides=",">
+            <if test="excelpackagesid != null">
+                #{excelpackagesid},
+            </if>
+            <if test="buyersconfirmid != null">
+                #{buyersconfirmid},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="tracking != null and tracking !=''">
+                #{tracking},
+            </if>
+            <if test="status != null and status !=''">
+                #{status},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <!--    sum(ep.quantity) as epquantity,-->
+    <select id="querySumQuantityConfirmOfProduct" resultType="com.example.order.pojo.SumQuantityConfirmOfProductforwarehouse">
+        SELECT
+        bt.sendto,
+        u.id as userid,
+        u.username,
+        u.name as relname,
+        whsself.sitename AS selfsitename,
+        whsself.id as siteid,
+        whsself.address1 AS selfaddress1,
+        whp.conditionvalue,
+        whp.name as whpname,
+        whp.price,
+        whp.note,
+        whp.id as productid,
+        GROUP_CONCAT( temp.quantity ) as quantitylist,
+        bc.type
+        FROM
+        buyerstask bt
+        LEFT JOIN buyersconfirm bc ON bc.buyerstaskid = bt.id
+        LEFT JOIN `user` u ON u.id = bc.buyersid
+        LEFT JOIN warehouseproduct whp ON whp.id = bt.productid
+        LEFT JOIN warehousesite whsself ON whsself.id = bc.selfsite
+        left join
+
+        (
+        SELECT
+        u.id  AS uid,
+        bs.quantity as quantity,bts.productid as productid
+        FROM
+        buyerstask bts
+        LEFT JOIN buyersconfirm bs ON bs.buyerstaskid = bts.id
+        LEFT JOIN `user` u ON u.id = bs.buyersid
+        LEFT JOIN warehouseproduct whp ON whp.id = bts.productid
+        LEFT JOIN excelpackages ep ON FIND_IN_SET( ep.upc, whp.upc )
+        LEFT JOIN warehousesite whs ON whs.contact = ep.site
+        LEFT JOIN warehousesite whsself ON whsself.id = bs.selfsite
+        WHERE
+        bts.orgid = bs.sellerid
+        AND bs.type = 'self'
+        GROUP BY
+        bs.id
+        ORDER BY
+        bs.lastupdate DESC
+        ) AS temp
+        on temp.productid = bt.productid and uid = bc.buyersid
+        <where>
+            <if test="productid != null">
+                AND bt.productid = #{productid}
+            </if>
+            <if test="orgid != null">
+                AND bt.orgid = #{orgid}
+            </if>
+            <if test="selfid != null">
+                AND bt.selfid = #{selfid}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR u.username LIKE CONCAT('%', #{searchinput},'%')
+                OR whsself.sitename LIKE CONCAT('%', #{searchinput},'%')
+                OR whsself.address1 LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+            and bt.orgid = bc.sellerid
+            and bc.type = 'self'
+        </where>
+        GROUP BY
+        bc.id,
+        whp.id,
+        whsself.id
+    </select>
+
+    <select id="queryWarehouseProductByID" parameterType="Integer"
+            resultType="com.example.order.entity.WarehouseProduct">
+        SELECT *
+        FROM warehouseproduct
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+        ORDER BY id desc
+    </select>
+
+    <select id="queryByupcdate" resultType="Map">
+        SELECT
+        ep.*,
+        whp.*,
+        whs.*,
+        (select count(id) from offer o where o.productid = whp.id LIMIT 1) as offersize,
+
+        (select count(bc.id)
+        from buyersconfirm bc,
+        buyerstask bs
+        where bc.buyerstaskid = bs.id
+        and bs.productid = whp.id LIMIT 1) as buyersconfirmsize
+        FROM excelpackages ep
+
+        LEFT JOIN warehouseproduct whp on FIND_IN_SET(ep.upc,whp.upc)
+        left join warehousesite whs on whs.contact = ep.site
+        <where>
+            <if test="orgid != null">
+                AND ep.orgid = #{orgid}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                ep.upc LIKE CONCAT('%', #{searchinput},'%')
+                OR ep.tracking LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and ep.lastupdate<![CDATA[  >=  ]]>#{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and ep.lastupdate<![CDATA[  <=  ]]>#{endDate}
+            </if>
+        </where>
+        ORDER BY ep.createdate desc,ep.lastupdate desc
+    </select>
+
+    <delete id="deleteExcelpackageById">
+        delete
+        from excelpackages
+        where id = #{id}
+    </delete>
+
+    <select id="querySumQuantityConfirmOfProductforwarehouse" resultType="com.example.order.pojo.SumQuantityConfirmOfProductforwarehouse">
+        SELECT
+        sum( ep.quantity ) AS epquantity,
+        whs.id as siteid,
+        whs.sitename,
+        whs.address1,
+        whp.conditionvalue,
+        whp.name,
+        whp.price,
+        whp.note,
+        whp.id as productid,
+        u.id as userid,
+        u.username ,
+        u.name as relname
+        from
+        warehouseproduct whp
+        left join excelpackages ep ON FIND_IN_SET( ep.upc, whp.upc )
+        LEFT JOIN warehousesite whs ON whs.contact = ep.site
+        LEFT JOIN user u ON u.id = whp.orgid
+        <where>
+            <if test="productid != null">
+                AND whp.id = #{productid}
+            </if>
+            <if test="orgid != null">
+                AND whp.orgid = #{orgid}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.name LIKE CONCAT('%', #{searchinput},'%')
+                OR whs.sitename LIKE CONCAT('%', #{searchinput},'%')
+                OR whs.address1 LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        GROUP BY
+        whs.id
+    </select>
+</mapper>

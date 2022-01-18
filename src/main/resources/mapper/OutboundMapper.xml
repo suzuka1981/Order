@@ -1,0 +1,1561 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.order.mapper.OutboundMapper">
+    <!--    <cache type="org.apache.ibatis.cache.impl.PerpetualCache"-->
+    <!--           size="1024"-->
+    <!--           eviction="LRU"-->
+    <!--           flushInterval="120000"-->
+    <!--           readOnly="false"/>-->
+
+    <insert id="addOutboundLabel" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into outboundlabel
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="valueOfShipService != null and valueOfShipService !=''">
+                valueOfShipService,
+            </if>
+            <if test="valueOfTemplate != null and valueOfTemplate !=''">
+                valueOfTemplate,
+            </if>
+            <if test="valueOfSignature != null and valueOfSignature !=''">
+                valueOfSignature,
+            </if>
+            <if test="shipdate != null">
+                shipdate,
+            </if>
+            <if test="inputNote != null and inputNote !=''">
+                inputNote,
+            </if>
+            <if test="inputMemo != null and inputMemo !=''">
+                inputMemo,
+            </if>
+
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="valueOfShipService != null and valueOfShipService !=''">
+                #{valueOfShipService},
+            </if>
+            <if test="valueOfTemplate != null and valueOfTemplate !=''">
+                #{valueOfTemplate},
+            </if>
+            <if test="valueOfSignature != null and valueOfSignature !=''">
+                #{valueOfSignature},
+            </if>
+            <if test="shipdate != null">
+                #{shipdate},
+            </if>
+            <if test="inputNote != null and inputNote !=''">
+                #{inputNote},
+            </if>
+            <if test="inputMemo != null and inputMemo !=''">
+                #{inputMemo},
+            </if>
+
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                #{selfid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="addOutboundRate" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into outboundrate
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="servicelevel_token != null and servicelevel_token !=''">
+                servicelevel_token,
+            </if>
+            <if test="servicelevel_name != null and servicelevel_name !=''">
+                servicelevel_name,
+            </if>
+            <if test="carrier != null and carrier !=''">
+                carrier,
+            </if>
+            <if test="amount != null and amount !=''">
+                amount,
+            </if>
+            <if test="currency != null and currency !=''">
+                currency,
+            </if>
+            <if test="retail_amount != null and retail_amount !=''">
+                retail_amount,
+            </if>
+            <if test="bussiness_days != null and bussiness_days !=''">
+                bussiness_days,
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                outboundlabelid,
+            </if>
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="servicelevel_token != null and servicelevel_token !=''">
+                #{servicelevel_token},
+            </if>
+            <if test="servicelevel_name != null and servicelevel_name !=''">
+                #{servicelevel_name},
+            </if>
+            <if test="carrier != null and carrier !=''">
+                #{carrier},
+            </if>
+            <if test="amount != null and amount !=''">
+                #{amount},
+            </if>
+            <if test="currency != null and currency !=''">
+                #{currency},
+            </if>
+            <if test="retail_amount != null and retail_amount !=''">
+                #{retail_amount},
+            </if>
+            <if test="bussiness_days != null and bussiness_days !=''">
+                #{bussiness_days},
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                #{outboundlabelid},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                #{selfid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="addOutboundPackageSize" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+        insert into outboundpackagesize
+        (
+        `weighttype`,
+        `length`,
+        `width`,
+        `weight`,
+        `memo`,
+        `index`,
+        `declaredvalue`,
+        `identicalpackageqty`,
+        `height`,
+        `outboundlabelid`,
+        `orgid`,
+        `selfid`,
+        `createdate`,
+        `lastupdate`
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.weighttype},
+            #{item.length},
+            #{item.width},
+            #{item.weight},
+            #{item.memo},
+            #{item.index},
+            #{item.declaredvalue},
+            #{item.identicalpackageqty},
+            #{item.height},
+            #{item.outboundlabelid},
+            #{item.orgid},
+            #{item.selfid},
+            #{item.createdate},
+            #{item.lastupdate}
+            )
+        </foreach>
+    </insert>
+
+    <insert id="addOutboundShipment" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into outboundshipment
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="rate_no != null and rate_no !=''">
+                rate_no,
+            </if>
+            <if test="carrier_no != null and carrier_no !=''">
+                carrier_no,
+            </if>
+            <if test="carrier != null and carrier !=''">
+                carrier,
+            </if>
+            <if test="currency != null and currency !=''">
+                currency,
+            </if>
+            <if test="weight != null and weight !=''">
+                weight,
+            </if>
+            <if test="retail_amount != null and retail_amount !=''">
+                retail_amount,
+            </if>
+            <if test="amount != null and amount !=''">
+                amount,
+            </if>
+            <if test="servicelevel_token != null and servicelevel_token !=''">
+                servicelevel_token,
+            </if>
+            <if test="servicelevel_name != null and servicelevel_name !=''">
+                servicelevel_name,
+            </if>
+            <if test="bussiness_days != null and bussiness_days !=''">
+                bussiness_days,
+            </if>
+            <if test="tracking_number != null and tracking_number !=''">
+                tracking_number,
+            </if>
+            <if test="label_url != null and label_url !=''">
+                label_url,
+            </if>
+            <if test="label_download_url != null and label_download_url !=''">
+                label_download_url,
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                outboundlabelid,
+            </if>
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="rate_no != null and rate_no !=''">
+                #{rate_no},
+            </if>
+            <if test="carrier_no != null and carrier_no !=''">
+                #{carrier_no},
+            </if>
+            <if test="carrier != null and carrier !=''">
+                #{carrier},
+            </if>
+            <if test="currency != null and currency !=''">
+                #{currency},
+            </if>
+            <if test="weight != null and weight !=''">
+                #{weight},
+            </if>
+            <if test="retail_amount != null and retail_amount !=''">
+                #{retail_amount},
+            </if>
+            <if test="amount != null and amount !=''">
+                #{amount},
+            </if>
+            <if test="servicelevel_token != null and servicelevel_token !=''">
+                #{servicelevel_token},
+            </if>
+            <if test="servicelevel_name != null and servicelevel_name !=''">
+                #{servicelevel_name},
+            </if>
+            <if test="bussiness_days != null and bussiness_days !=''">
+                #{bussiness_days},
+            </if>
+            <if test="tracking_number != null and tracking_number !=''">
+                #{tracking_number},
+            </if>
+            <if test="label_url != null and label_url !=''">
+                #{label_url},
+            </if>
+            <if test="label_download_url != null and label_download_url !=''">
+                #{label_download_url},
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                #{outboundlabelid},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                #{selfid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <select id="queryLabelListOfMap" resultMap="getLabelList">
+        select
+        ol.id as olid,
+        ol.valueOfShipService as olvalueOfShipService,
+        ol.valueOfTemplate as olvalueOfTemplate,
+        ol.valueOfSignature as olvalueOfSignature,
+        ol.shipdate as olshipdate,
+        ol.inputNote as olinputNote,
+        ol.inputMemo as olinputMemo,
+        ol.orgid as olorgid,
+        ol.selfid as olselfid,
+        ol.createdate as olcreatedate,
+        ol.lastupdate as ollastupdate,
+
+        oas.id as oasid,
+        oas.zipcode as oaszipcode,
+        oas.valueOfAddressName as oasvalueOfAddressName,
+        oas.phone as oasphone,
+        oas.address2 as oasaddress2,
+        oas.city as oascity,
+        oas.companyname as oascompanyname,
+        oas.address1 as oasaddress1,
+        oas.saveOfchecked as oassaveOfchecked,
+        oas.fullname as oasfullname,
+        oas.addressname as oasaddressname,
+        oas.valueOfState as oasvalueOfState,
+        oas.type as oastype,
+        oas.createdate as oascreatedate,
+        oas.lastupdate as oaslastupdate,
+
+        oar.id as oarid,
+        oar.zipcode as oarzipcode,
+        oar.valueOfAddressName as oarvalueOfAddressName,
+        oar.phone as oarphone,
+        oar.address2 as oaraddress2,
+        oar.city as oarcity,
+        oar.companyname as oarcompanyname,
+        oar.address1 as oaraddress1,
+        oar.saveOfchecked as oarsaveOfchecked,
+        oar.fullname as oarfullname,
+        oar.addressname as oaraddressname,
+        oar.valueOfState as oarvalueOfState,
+        oar.type as oartype,
+        oar.createdate as oarcreatedate,
+        oar.lastupdate as oarlastupdate,
+
+        ops.id as opsid,
+        ops.length as opslength,
+        ops.weighttype as opsweighttype,
+        ops.width as opswidth,
+        ops.weight as opsweight,
+        ops.memo as opsmemo,
+        ops.index as opsindex,
+        ops.declaredvalue as opsdeclaredvalue,
+        ops.identicalpackageqty as opsidenticalpackageqty,
+        ops.height as opsheight,
+        ops.createdate as opscreatedate,
+        ops.lastupdate as opslastupdate,
+
+        orat.id as oratid,
+        orat.servicelevel_token as oratservicelevel_token,
+        orat.servicelevel_name as oratservicelevel_name,
+        orat.carrier as oratcarrier,
+        orat.amount as oratamount,
+        orat.currency as oratcurrency,
+        orat.retail_amount as oratretail_amount,
+        orat.bussiness_days as oratbussiness_days,
+        orat.createdate as oratcreatedate,
+        orat.lastupdate as oratlastupdate,
+
+        osm.id as osmid,
+        osm.rate_no as osmrate_no,
+        osm.carrier_no as osmcarrier_no,
+        osm.carrier as osmcarrier,
+        osm.currency as osmcurrency,
+        osm.weight as osmweight,
+        osm.retail_amount as osmretail_amount,
+        osm.amount as osmamount,
+        osm.servicelevel_token as osmservicelevel_token,
+        osm.servicelevel_name as osmservicelevel_name,
+        osm.bussiness_days as osmbussiness_days,
+        osm.tracking_number as osmtracking_number,
+        osm.label_url as osmlabel_url,
+        osm.label_download_url as osmlabel_download_url,
+        osm.createdate as osmcreatedate,
+        osm.lastupdate as osmlastupdate
+        FROM
+        outboundlabel ol
+        LEFT JOIN outboundaddress oas on oas.outboundlabelid = ol.id and oas.type = 'sender'
+        LEFT JOIN outboundaddress oar on oar.outboundlabelid = ol.id and oar.type = 'recipient'
+        LEFT JOIN outboundpackagesize ops on ops.outboundlabelid = ol.id
+        LEFT JOIN outboundrate orat on orat.outboundlabelid = ol.id
+        LEFT JOIN outboundshipment osm on osm.outboundlabelid = ol.id
+        <where>
+            <if test="orgid != null">
+                And ol.orgid = #{orgid}
+            </if>
+            <if test="labelid != null and labelid !=''">
+                And ol.id = #{labelid}
+            </if>
+
+            <if test="startDate != null and startDate != ''">
+                and ol.createdate<![CDATA[  >=  ]]>#{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and ol.createdate<![CDATA[  <=  ]]>#{endDate}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                ol.id LIKE CONCAT('%', #{searchinput},'%')
+                OR osm.tracking_number LIKE CONCAT('%', #{searchinput},'%')
+                OR oas.address1 LIKE CONCAT('%', #{searchinput},'%')
+                OR oar.address1 LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        ORDER BY ol.lastupdate desc
+    </select>
+
+    <resultMap id="getLabelList" type="com.example.order.pojo.OutboundLabelPojo">
+        <id property="id" column="olid"/>
+        <result property="valueOfShipService" column="olvalueOfShipService"/>
+        <result property="valueOfTemplate" column="olvalueOfTemplate"/>
+        <result property="valueOfSignature" column="olvalueOfSignature"/>
+        <result property="shipdate" column="olshipdate"/>
+        <result property="inputNote" column="olinputNote"/>
+        <result property="inputMemo" column="olinputMemo"/>
+        <result property="orgid" column="olorgid"/>
+        <result property="selfid" column="olselfid"/>
+        <result property="createdate" column="olcreatedate"/>
+        <result property="lastupdate" column="ollastupdate"/>
+        <!-- property表示集合类型属性名称，ofType表示集合中的对象是什么类型 -->
+        <collection property="outsenderForm" ofType="com.example.order.entity.OutboundAddress">
+            <id property="id" column="oasid"/>
+            <result property="zipcode" column="oaszipcode"/>
+            <result property="valueOfAddressName" column="oasvalueOfAddressName"/>
+            <result property="phone" column="oasphone"/>
+            <result property="address2" column="oasaddress2"/>
+            <result property="city" column="oascity"/>
+            <result property="companyname" column="oascompanyname"/>
+            <result property="address1" column="oasaddress1"/>
+            <result property="saveOfchecked" column="oassaveOfchecked"/>
+            <result property="fullname" column="oasfullname"/>
+            <result property="addressname" column="oasaddressname"/>
+            <result property="valueOfState" column="oasvalueOfState"/>
+            <result property="type" column="oastype"/>
+            <result property="createdate" column="oascreatedate"/>
+            <result property="lastupdate" column="oaslastupdate"/>
+        </collection>
+        <collection property="outrecipientForm" ofType="com.example.order.entity.OutboundAddress">
+            <id property="id" column="oarid"/>
+            <result property="zipcode" column="oarzipcode"/>
+            <result property="valueOfAddressName" column="oarvalueOfAddressName"/>
+            <result property="phone" column="oarphone"/>
+            <result property="address2" column="oaraddress2"/>
+            <result property="city" column="oarcity"/>
+            <result property="companyname" column="oarcompanyname"/>
+            <result property="address1" column="oaraddress1"/>
+            <result property="saveOfchecked" column="oarsaveOfchecked"/>
+            <result property="fullname" column="oarfullname"/>
+            <result property="addressname" column="oaraddressname"/>
+            <result property="valueOfState" column="oarvalueOfState"/>
+            <result property="type" column="oartype"/>
+            <result property="createdate" column="oarcreatedate"/>
+            <result property="lastupdate" column="oarlastupdate"/>
+        </collection>
+        <collection property="outboundPackageSizeList" ofType="com.example.order.entity.OutboundPackageSize">
+            <id property="id" column="opsid"/>
+            <result property="weighttype" column="opsweighttype"/>
+            <result property="length" column="opslength"/>
+            <result property="width" column="opswidth"/>
+            <result property="weight" column="opsweight"/>
+            <result property="memo" column="opsmemo"/>
+            <result property="index" column="opsindex"/>
+            <result property="declaredvalue" column="opsdeclaredvalue"/>
+            <result property="identicalpackageqty" column="opsidenticalpackageqty"/>
+            <result property="height" column="opsheight"/>
+            <result property="createdate" column="opscreatedate"/>
+            <result property="lastupdate" column="opslastupdate"/>
+        </collection>
+        <collection property="rateSub" ofType="com.example.order.entity.OutboundRate">
+            <id property="id" column="oratid"/>
+            <result property="servicelevel_token" column="oratservicelevel_token"/>
+            <result property="servicelevel_name" column="oratservicelevel_name"/>
+            <result property="carrier" column="oratcarrier"/>
+            <result property="amount" column="oratamount"/>
+            <result property="currency" column="oratcurrency"/>
+            <result property="retail_amount" column="oratretail_amount"/>
+            <result property="bussiness_days" column="oratbussiness_days"/>
+            <result property="createdate" column="oratcreatedate"/>
+            <result property="lastupdate" column="oratlastupdate"/>
+        </collection>
+        <collection property="outboundShipment" ofType="com.example.order.entity.OutboundShipment">
+            <id property="id" column="osmid"/>
+            <result property="rate_no" column="osmrate_no"/>
+            <result property="carrier_no" column="osmcarrier_no"/>
+            <result property="carrier" column="osmcarrier"/>
+            <result property="currency" column="osmcurrency"/>
+            <result property="weight" column="osmweight"/>
+            <result property="retail_amount" column="osmretail_amount"/>
+            <result property="amount" column="osmamount"/>
+            <result property="servicelevel_token" column="osmservicelevel_token"/>
+            <result property="servicelevel_name" column="osmservicelevel_name"/>
+            <result property="bussiness_days" column="osmbussiness_days"/>
+            <result property="tracking_number" column="osmtracking_number"/>
+            <result property="label_url" column="osmlabel_url"/>
+            <result property="label_download_url" column="osmlabel_download_url"/>
+            <result property="createdate" column="osmcreatedate"/>
+            <result property="lastupdate" column="osmlastupdate"/>
+        </collection>
+    </resultMap>
+
+    <delete id="deleteLabel">
+        DELETE
+        ol,
+            oa,
+            ops,
+            orate,
+            osm
+        FROM
+            outboundlabel ol
+            LEFT JOIN outboundaddress oa ON oa.outboundlabelid = ol.id
+            LEFT JOIN outboundpackagesize ops ON ops.outboundlabelid = ol.id
+            LEFT JOIN outboundrate orate ON orate.outboundlabelid = ol.id
+            LEFT JOIN outboundshipment osm ON osm.outboundlabelid = ol.id
+        where
+            ol.id =
+        #{id}
+    </delete>
+
+    <update id="updateLabel">
+        update outboundlabel
+        <trim prefix="set" suffixOverrides=",">
+            <if test="inputNote != null and inputNote !=''">
+                inputNote=#{inputNote},
+            </if>
+
+        </trim>
+        <where>
+            <if test="labelid != null">
+                AND id =#{labelid}
+            </if>
+        </where>
+    </update>
+
+
+    <select id="queryOutboundAddress" resultType="Map">
+        SELECT
+        *
+        FROM
+        outboundaddress
+        <where>
+            <if test="orgid != null">
+                AND orgid = #{id}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addOutboundAddress" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into outboundaddress
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="zipcode != null and zipcode !=''">
+                zipcode,
+            </if>
+            <if test="valueOfAddressName != null and valueOfAddressName !=''">
+                valueOfAddressName,
+            </if>
+            <if test="phone != null and phone !=''">
+                phone,
+            </if>
+            <if test="address2 != null and address2 !=''">
+                address2,
+            </if>
+            <if test="city != null and city !=''">
+                city,
+            </if>
+            <if test="companyname != null and companyname !=''">
+                companyname,
+            </if>
+            <if test="address1 != null and address1 !=''">
+                address1,
+            </if>
+            <if test="saveOfchecked != null and saveOfchecked !=''">
+                saveOfchecked,
+            </if>
+            <if test="fullname != null and fullname !=''">
+                fullname,
+            </if>
+            <if test="addressname != null and addressname !=''">
+                addressname,
+            </if>
+            <if test="valueOfState != null and valueOfState !=''">
+                valueOfState,
+            </if>
+            <if test="type != null and type !=''">
+                type,
+            </if>
+
+            <if test="ein != null and ein !=''">
+                ein,
+            </if>
+            <if test="email != null and email !=''">
+                email,
+            </if>
+            <if test="valueOfCountry != null and valueOfCountry !=''">
+                valueOfCountry,
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                outboundlabelid,
+            </if>
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="zipcode != null and zipcode !=''">
+                #{zipcode},
+            </if>
+            <if test="valueOfAddressName != null and valueOfAddressName !=''">
+                #{valueOfAddressName},
+            </if>
+            <if test="phone != null and phone !=''">
+                #{phone},
+            </if>
+            <if test="address2 != null and address2 !=''">
+                #{address2},
+            </if>
+            <if test="city != null and city !=''">
+                #{city},
+            </if>
+            <if test="companyname != null and companyname !=''">
+                #{companyname},
+            </if>
+            <if test="address1 != null and address1 !=''">
+                #{address1},
+            </if>
+            <if test="saveOfchecked != null and saveOfchecked !=''">
+                #{saveOfchecked},
+            </if>
+            <if test="fullname != null and fullname !=''">
+                #{fullname},
+            </if>
+            <if test="addressname != null and addressname !=''">
+                #{addressname},
+            </if>
+            <if test="valueOfState != null and valueOfState !=''">
+                #{valueOfState},
+            </if>
+            <if test="type != null and type !=''">
+                #{type},
+            </if>
+
+            <if test="ein != null and ein !=''">
+                #{ein},
+            </if>
+            <if test="email != null and email !=''">
+                #{email},
+            </if>
+            <if test="valueOfCountry != null and valueOfCountry !=''">
+                #{valueOfCountry},
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                #{outboundlabelid},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                #{selfid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateOutboundaddress" parameterType="com.example.order.entity.OutboundAddress">
+        update outboundaddress
+        <trim prefix="set" suffixOverrides=",">
+            <if test="zipcode != null and zipcode !=''">
+                zipcode=#{zipcode},
+            </if>
+            <if test="valueOfAddressName != null and valueOfAddressName !=''">
+                valueOfAddressName=#{valueOfAddressName},
+            </if>
+            <if test="phone != null and phone !=''">
+                phone=#{phone},
+            </if>
+            <if test="address2 != null and address2 !=''">
+                address2=#{address2},
+            </if>
+            <if test="city != null and city !=''">
+                city=#{city},
+            </if>
+            <if test="companyname != null and companyname !=''">
+                companyname=#{companyname},
+            </if>
+            <if test="address1 != null and address1 !=''">
+                address1=#{address1},
+            </if>
+            <if test="saveOfchecked != null and saveOfchecked !=''">
+                saveOfchecked=#{saveOfchecked},
+            </if>
+            <if test="fullname != null and fullname !=''">
+                fullname=#{fullname},
+            </if>
+            <if test="addressname != null and addressname !=''">
+                addressname=#{addressname},
+            </if>
+            <if test="valueOfState != null and valueOfState !=''">
+                valueOfState=#{valueOfState},
+            </if>
+            <if test="type != null and type !=''">
+                type=#{type},
+            </if>
+
+            <if test="ein != null and ein !=''">
+                ein=#{ein},
+            </if>
+            <if test="email != null and email !=''">
+                email=#{email},
+            </if>
+            <if test="valueOfCountry != null and valueOfCountry !=''">
+                valueOfCountry=#{valueOfCountry},
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                outboundlabelid=#{outboundlabelid},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                orgid=#{orgid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid=#{selfid},
+            </if>
+
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate=#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteAddress">
+        delete
+        from outboundaddress
+        where id = #{id}
+    </delete>
+
+    <select id="queryOutboundAddresstmplate" resultType="Map">
+        SELECT
+        *
+        FROM
+        outboundaddresstmplate
+        <where>
+            <if test="orgid != null">
+                AND orgid = #{id}
+            </if>
+        </where>
+        order by lastupdate desc
+    </select>
+
+    <insert id="addOutboundAddresstmplate" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into outboundaddresstmplate
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="zipcode != null and zipcode !=''">
+                zipcode,
+            </if>
+            <if test="valueOfAddressName != null and valueOfAddressName !=''">
+                valueOfAddressName,
+            </if>
+            <if test="phone != null and phone !=''">
+                phone,
+            </if>
+            <if test="address2 != null and address2 !=''">
+                address2,
+            </if>
+            <if test="city != null and city !=''">
+                city,
+            </if>
+            <if test="companyname != null and companyname !=''">
+                companyname,
+            </if>
+            <if test="address1 != null and address1 !=''">
+                address1,
+            </if>
+            <if test="saveOfchecked != null and saveOfchecked !=''">
+                saveOfchecked,
+            </if>
+            <if test="fullname != null and fullname !=''">
+                fullname,
+            </if>
+            <if test="addressname != null and addressname !=''">
+                addressname,
+            </if>
+            <if test="valueOfState != null and valueOfState !=''">
+                valueOfState,
+            </if>
+            <if test="type != null and type !=''">
+                type,
+            </if>
+
+            <if test="ein != null and ein !=''">
+                ein,
+            </if>
+            <if test="email != null and email !=''">
+                email,
+            </if>
+            <if test="valueOfCountry != null and valueOfCountry !=''">
+                valueOfCountry,
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                outboundlabelid,
+            </if>
+            <if test="orgid != null and orgid !=''">
+                orgid,
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid,
+            </if>
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="zipcode != null and zipcode !=''">
+                #{zipcode},
+            </if>
+            <if test="valueOfAddressName != null and valueOfAddressName !=''">
+                #{valueOfAddressName},
+            </if>
+            <if test="phone != null and phone !=''">
+                #{phone},
+            </if>
+            <if test="address2 != null and address2 !=''">
+                #{address2},
+            </if>
+            <if test="city != null and city !=''">
+                #{city},
+            </if>
+            <if test="companyname != null and companyname !=''">
+                #{companyname},
+            </if>
+            <if test="address1 != null and address1 !=''">
+                #{address1},
+            </if>
+            <if test="saveOfchecked != null and saveOfchecked !=''">
+                #{saveOfchecked},
+            </if>
+            <if test="fullname != null and fullname !=''">
+                #{fullname},
+            </if>
+            <if test="addressname != null and addressname !=''">
+                #{addressname},
+            </if>
+            <if test="valueOfState != null and valueOfState !=''">
+                #{valueOfState},
+            </if>
+            <if test="type != null and type !=''">
+                #{type},
+            </if>
+
+            <if test="ein != null and ein !=''">
+                #{ein},
+            </if>
+            <if test="email != null and email !=''">
+                #{email},
+            </if>
+            <if test="valueOfCountry != null and valueOfCountry !=''">
+                #{valueOfCountry},
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                #{outboundlabelid},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                #{selfid},
+            </if>
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <update id="updateOutboundaddresstmplate" parameterType="com.example.order.entity.OutboundAddress">
+        update outboundaddresstmplate
+        <trim prefix="set" suffixOverrides=",">
+            <if test="zipcode != null and zipcode !=''">
+                zipcode=#{zipcode},
+            </if>
+            <if test="valueOfAddressName != null and valueOfAddressName !=''">
+                valueOfAddressName=#{valueOfAddressName},
+            </if>
+            <if test="phone != null and phone !=''">
+                phone=#{phone},
+            </if>
+            <if test="address2 != null and address2 !=''">
+                address2=#{address2},
+            </if>
+            <if test="city != null and city !=''">
+                city=#{city},
+            </if>
+            <if test="companyname != null and companyname !=''">
+                companyname=#{companyname},
+            </if>
+            <if test="address1 != null and address1 !=''">
+                address1=#{address1},
+            </if>
+            <if test="saveOfchecked != null and saveOfchecked !=''">
+                saveOfchecked=#{saveOfchecked},
+            </if>
+            <if test="fullname != null and fullname !=''">
+                fullname=#{fullname},
+            </if>
+            <if test="addressname != null and addressname !=''">
+                addressname=#{addressname},
+            </if>
+            <if test="valueOfState != null and valueOfState !=''">
+                valueOfState=#{valueOfState},
+            </if>
+            <if test="type != null and type !=''">
+                type=#{type},
+            </if>
+
+            <if test="ein != null and ein !=''">
+                ein=#{ein},
+            </if>
+            <if test="email != null and email !=''">
+                email=#{email},
+            </if>
+            <if test="valueOfCountry != null and valueOfCountry !=''">
+                valueOfCountry=#{valueOfCountry},
+            </if>
+
+            <if test="outboundlabelid != null and outboundlabelid !=''">
+                outboundlabelid=#{outboundlabelid},
+            </if>
+            <if test="orgid != null and orgid !=''">
+                orgid=#{orgid},
+            </if>
+            <if test="selfid != null and selfid !=''">
+                selfid=#{selfid},
+            </if>
+
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate=#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteAddresstmplate">
+        delete
+        from outboundaddresstmplate
+        where id = #{id}
+    </delete>
+
+    <insert id="addOutboundPackageSizetemplate" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+        insert into outboundpackagesizetemplate
+        (
+        `weighttype`,
+        `length`,
+        `width`,
+        `weight`,
+        `memo`,
+        `index`,
+        `declaredvalue`,
+        `identicalpackageqty`,
+        `height`,
+        `outboundlabelid`,
+        `orgid`,
+        `selfid`,
+        `name`,
+        `createdate`,
+        `lastupdate`
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.weighttype},
+            #{item.length},
+            #{item.width},
+            #{item.weight},
+            #{item.memo},
+            #{item.index},
+            #{item.declaredvalue},
+            #{item.identicalpackageqty},
+            #{item.height},
+            #{item.outboundlabelid},
+            #{item.orgid},
+            #{item.selfid},
+            #{item.name},
+            #{item.createdate},
+            #{item.lastupdate}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryPackageSizeTemplate" resultType="Map">
+        SELECT
+        *
+        FROM
+        outboundpackagesizetemplate
+        <where>
+            <if test="orgid != null">
+                AND orgid = #{orgid}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                name LIKE CONCAT('%', #{searchinput},'%')
+                OR id LIKE CONCAT('%', #{searchinput},'%')
+                OR width LIKE CONCAT('%', #{searchinput},'%')
+                OR length LIKE CONCAT('%', #{searchinput},'%')
+                OR height LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        order by lastupdate desc
+    </select>
+
+    <update id="updateOutboundPackageSizetemplate" parameterType="com.example.order.entity.OutboundPackageSize">
+        update outboundpackagesizetemplate
+        <trim prefix="set" suffixOverrides=",">
+            <if test="length != null">
+                length=#{length},
+            </if>
+            <if test="width != null">
+                width=#{width},
+            </if>
+            <if test="height != null">
+                height=#{height},
+            </if>
+            <if test="orgid != null">
+                orgid=#{orgid},
+            </if>
+            <if test="name != null">
+                name=#{name},
+            </if>
+
+            <if test="createdate != null">
+                createdate=#{createdate},
+            </if>
+            <if test="lastupdate != null">
+                lastupdate=#{lastupdate},
+            </if>
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deletePackageSizeTemplate">
+        delete
+        from outboundpackagesizetemplate
+        where id = #{id}
+    </delete>
+
+    <insert id="addOutboundStatus" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into outboundstatus
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="servicetype != null">
+                servicetype,
+            </if>
+            <if test="labelid != null">
+                labelid,
+            </if>
+            <if test="label_url != null and label_url !=''">
+                label_url,
+            </if>
+            <if test="uploadfiles != null and uploadfiles !=''">
+                uploadfiles,
+            </if>
+            <if test="tracking_number != null and tracking_number !=''">
+                tracking_number,
+            </if>
+            <if test="packagequantity != null">
+                packagequantity,
+            </if>
+            <if test="destination != null and destination !=''">
+                destination,
+            </if>
+            <if test="otherservices != null and otherservices !=''">
+                otherservices,
+            </if>
+            <if test="carrier != null and carrier !=''">
+                carrier,
+            </if>
+            <if test="notetoyourself != null and notetoyourself !=''">
+                notetoyourself,
+            </if>
+            <if test="instruction != null and instruction !=''">
+                instruction,
+            </if>
+            <if test="destinationcontent != null and destinationcontent !=''">
+                destinationcontent,
+            </if>
+
+            <if test="orgid != null">
+                orgid,
+            </if>
+
+            <if test="createdate != null">
+                createdate,
+            </if>
+            <if test="lastupdate != null">
+                lastupdate,
+            </if>
+        </trim>
+        )
+        values
+        (
+        <trim prefix="" suffixOverrides=",">
+            <if test="servicetype != null">
+                #{servicetype},
+            </if>
+            <if test="labelid != null">
+                #{labelid},
+            </if>
+            <if test="label_url != null and label_url !=''">
+                #{label_url},
+            </if>
+            <if test="uploadfiles != null and uploadfiles !=''">
+                #{uploadfiles},
+            </if>
+            <if test="tracking_number != null and tracking_number !=''">
+                #{tracking_number},
+            </if>
+            <if test="packagequantity != null">
+                #{packagequantity},
+            </if>
+            <if test="destination != null and destination !=''">
+                #{destination},
+            </if>
+            <if test="otherservices != null and otherservices !=''">
+                #{otherservices},
+            </if>
+            <if test="carrier != null and carrier !=''">
+                #{carrier},
+            </if>
+            <if test="notetoyourself != null and notetoyourself !=''">
+                #{notetoyourself},
+            </if>
+            <if test="instruction != null and instruction !=''">
+                #{instruction},
+            </if>
+            <if test="destinationcontent != null and destinationcontent !=''">
+                #{destinationcontent},
+            </if>
+
+            <if test="orgid != null and orgid !=''">
+                #{orgid},
+            </if>
+
+            <if test="createdate != null">
+                #{createdate},
+            </if>
+            <if test="lastupdate != null">
+                #{lastupdate},
+            </if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="addOutboundStatusProductSize" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id"
+            keyColumn="id">
+        insert into outboundstatusproductsize
+        (
+        `siteid`,
+        `productid`,
+        `userid`,
+        `type`,
+        `toship`,
+        `unitprice`,
+        `unitcost`,
+        `orgid`,
+        `OutboundStatusid`,
+        `available`,
+
+        `createdate`,
+        `lastupdate`
+        )
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.siteid},
+            #{item.productid},
+            #{item.userid},
+            #{item.type},
+            #{item.toship},
+            #{item.unitprice},
+            #{item.unitcost},
+            #{item.orgid},
+            #{item.OutboundStatusid},
+            #{item.available},
+            #{item.createdate},
+            #{item.lastupdate}
+            )
+        </foreach>
+    </insert>
+
+    <select id="queryStatusList" resultMap="getStatusList">
+        SELECT
+        (select count(bc.id)
+        from buyersconfirm bc,
+        buyerstask bs
+        where bc.buyerstaskid = bs.id
+        and bs.productid = whp.id LIMIT 1) as buyersconfirmsize,
+        obs.id,
+        obs.servicetype,
+        obs.labelid,
+        obs.label_url,
+        obs.uploadfiles,
+        obs.tracking_number,
+        obs.packagequantity,
+        obs.destination,
+        obs.otherservices,
+        obs.carrier,
+        obs.notetoyourself,
+        obs.instruction,
+        obs.orgid,
+        obs.createdate,
+        obs.lastupdate,
+        obs.destinationcontent,
+
+        obsps.id AS obspsid,
+        obsps.siteid,
+        obsps.productid,
+        obsps.userid,
+        obsps.type,
+        obsps.toship,
+        obsps.unitprice,
+        obsps.unitcost,
+        obsps.OutboundStatusid,
+        obsps.createdate AS obspscreatedate,
+        obsps.lastupdate AS obspslastupdate,
+
+        whp.id AS whpid,
+        whp.inbound,
+        whp.price,
+        whp.NAME,
+        whp.conditionvalue,
+        whp.asin,
+        whp.sku,
+        whp.upc,
+        whp.checked,
+        whp.note,
+        whp.STATUS,
+        whp.mfsku,
+        whp.createdate AS whpcreatedate,
+        whp.lastupdate AS whplastupdate,
+
+        whs.id AS whsid,
+        whs.sitename,
+        whs.selfid,
+        whs.address1,
+        whs.address2,
+        whs.state,
+        whs.city,
+        whs.zip,
+        whs.phone,
+        whs.contact,
+        whs.appkey,
+        whs.signature,
+        whs.mfyccid,
+        whs.checked as whschecked,
+        whs.createdate AS whscreatedate,
+        whs.lastupdate AS whslastupdate,
+
+        u.id AS uid,
+        u.username,
+        u.NAME as uNAME,
+        u.PASSWORD,
+        u.CODE,
+        u.STATUS as uSTATUS,
+        u.type as utype,
+        u.createdate AS ucreatedate,
+        u.lastupdate AS ulastupdate,
+
+        osm.rate_no
+        FROM
+        outboundstatus obs
+        LEFT JOIN outboundstatusproductsize obsps on obsps.OutboundStatusid = obs.id
+        LEFT JOIN warehouseproduct whp on whp.id = obsps.productid
+        LEFT JOIN warehousesite whs on whs.id = obsps.siteid
+        LEFT JOIN user u on u.id = obsps.userid
+        LEFT JOIN outboundshipment osm on osm.outboundlabelid = obs.labelid
+        <where>
+            <if test="userselect != null and userselect != '' and userselect != 'Bizblock warehouse'">
+                And u.id = #{userselect}
+            </if>
+            <if test="userselect != null and userselect != '' and userselect == 'Bizblock warehouse'">
+                And (obsps.type is null or obsps.type = '')
+            </if>
+            <if test="orgid != null and orgid != ''">
+                And obs.orgid = #{orgid}
+            </if>
+            <if test="status != null and status != ''">
+                And obs.status = #{status}
+            </if>
+            <if test="status == '' or status == null">
+                And (obs.status is null or obs.status = '')
+            </if>
+            <if test="selfid != null and selfid != ''">
+                And obsps.userid = #{selfid}
+            </if>
+
+            <if test="startDate != null and startDate != ''">
+                and obs.createdate<![CDATA[  >=  ]]>#{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and obs.createdate<![CDATA[  <=  ]]>#{endDate}
+            </if>
+            <if test="searchinput != null and searchinput != ''">
+                AND(
+                whp.upc LIKE CONCAT('%', #{searchinput},'%')
+                OR whp.asin LIKE CONCAT('%', #{searchinput},'%')
+                OR whp.id LIKE CONCAT('%', #{searchinput},'%')
+                OR obs.tracking_number LIKE CONCAT('%', #{searchinput},'%')
+                )
+            </if>
+        </where>
+        ORDER BY obs.lastupdate desc
+    </select>
+
+    <resultMap id="getStatusList" type="com.example.order.pojo.OutboundStatusPojo">
+        <id property="id" column="id"/>
+        <result property="rate_no" column="rate_no"/>
+        <result property="servicetype" column="servicetype"/>
+        <result property="destinationcontent" column="destinationcontent"/>
+        <result property="labelid" column="labelid"/>
+        <result property="label_url" column="label_url"/>
+        <result property="uploadfiles" column="uploadfiles"/>
+        <result property="tracking_number" column="tracking_number"/>
+        <result property="packagequantity" column="packagequantity"/>
+        <result property="destination" column="destination"/>
+        <result property="otherservices" column="otherservices"/>
+        <result property="carrier" column="carrier"/>
+        <result property="notetoyourself" column="notetoyourself"/>
+        <result property="instruction" column="instruction"/>
+        <result property="orgid" column="orgid"/>
+        <result property="createdate" column="createdate"/>
+        <result property="lastupdate" column="lastupdate"/>
+        <!-- property表示集合类型属性名称，ofType表示集合中的对象是什么类型 -->
+        <collection property="outboundStatusProductSize" ofType="com.example.order.entity.OutboundStatusProductSize">
+            <id property="id" column="obspsid"/>
+            <result property="siteid" column="siteid"/>
+            <result property="productid" column="productid"/>
+            <result property="userid" column="userid"/>
+            <result property="type" column="type"/>
+            <result property="toship" column="toship"/>
+            <result property="unitprice" column="unitprice"/>
+            <result property="unitcost" column="unitcost"/>
+            <result property="OutboundStatusid" column="OutboundStatusid"/>
+            <result property="createdate" column="obspscreatedate"/>
+            <result property="lastupdate" column="obspslastupdate"/>
+        </collection>
+        <collection property="warehouseProduct" ofType="com.example.order.entity.WarehouseProduct">
+            <id property="id" column="whpid"/>
+            <result property="buyersconfirmsize" column="buyersconfirmsize"/>
+            <result property="inbound" column="inbound"/>
+            <result property="price" column="price"/>
+            <result property="name" column="name"/>
+            <result property="conditionvalue" column="conditionvalue"/>
+            <result property="asin" column="asin"/>
+            <result property="sku" column="sku"/>
+            <result property="upc" column="upc"/>
+            <result property="checked" column="checked"/>
+            <result property="note" column="note"/>
+            <result property="status" column="status"/>
+            <result property="mfsku" column="mfsku"/>
+            <result property="createdate" column="whpcreatedate"/>
+            <result property="lastupdate" column="whplastupdate"/>
+        </collection>
+        <collection property="wareHouseSite" ofType="com.example.order.entity.WareHouseSite">
+            <id property="id" column="whsid"/>
+            <result property="sitename" column="sitename"/>
+            <result property="selfid" column="selfid"/>
+            <result property="address1" column="address1"/>
+            <result property="address2" column="address2"/>
+            <result property="state" column="state"/>
+            <result property="city" column="city"/>
+            <result property="zip" column="zip"/>
+            <result property="phone" column="phone"/>
+            <result property="contact" column="contact"/>
+            <result property="appkey" column="appkey"/>
+            <result property="signature" column="signature"/>
+            <result property="mfyccid" column="mfyccid"/>
+            <result property="checked" column="whschecked"/>
+            <result property="createdate" column="whscreatedate"/>
+            <result property="lastupdate" column="whslastupdate"/>
+        </collection>
+        <collection property="user" ofType="com.example.order.entity.User">
+            <id property="id" column="uid"/>
+            <result property="username" column="username"/>
+            <result property="name" column="uNAME"/>
+            <result property="password" column="password"/>
+            <result property="code" column="code"/>
+            <result property="status" column="uSTATUS"/>
+            <result property="type" column="utype"/>
+            <result property="createdate" column="ucreatedate"/>
+            <result property="lastupdate" column="ulastupdate"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateOutboundStatus" parameterType="com.example.order.entity.OutboundStatus">
+        update outboundstatus
+        <trim prefix="set" suffixOverrides=",">
+            <if test="unitedelectronicsdeals != null and unitedelectronicsdeals !=''">
+                unitedelectronicsdeals=#{unitedelectronicsdeals},
+            </if>
+            <if test="uploadaddress != null and uploadaddress !=''">
+                uploadaddress=#{uploadaddress},
+            </if>
+            <if test="status != null and status !=''">
+                status=#{status},
+            </if>
+
+            <if test="buyersexpedite != null and buyersexpedite !=''">
+                buyersexpedite=#{buyersexpedite},
+            </if>
+            <if test="buyerslabel != null and buyerslabel !=''">
+                buyerslabel=#{buyerslabel},
+            </if>
+            <if test="buyersphoto != null and buyersphoto !=''">
+                buyersphoto=#{buyersphoto},
+            </if>
+            <if test="buyerssn != null and buyerssn !=''">
+                buyerssn=#{buyerssn},
+            </if>
+            <if test="buyersuploadfiles != null and buyersuploadfiles !=''">
+                buyersuploadfiles=#{buyersuploadfiles},
+            </if>
+            <if test="buyersnote != null and buyersnote !=''">
+                buyersnote=#{buyersnote},
+            </if>
+            <if test="buyerscreatedate != null">
+                buyerscreatedate=#{buyerscreatedate},
+            </if>
+            <if test="buyerslastupdate != null">
+                buyerslastupdate=#{buyerslastupdate},
+            </if>
+
+        </trim>
+        <where>
+            <if test="id != null">
+                AND id =#{id}
+            </if>
+        </where>
+    </update>
+
+    <delete id="deleteOutboundstatus">
+        DELETE
+        os,
+        osps
+        FROM
+            outboundstatus os
+            LEFT JOIN outboundstatusproductsize osps ON osps.OutboundStatusid = os.id
+        where
+            os.id =
+        #{id}
+    </delete>
+
+    <select id="queryOutboundStatus" resultType="com.example.order.entity.OutboundStatus">
+        SELECT
+        *
+        FROM
+        outboundstatus
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+    </select>
+</mapper>

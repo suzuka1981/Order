@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <span>Offer ID: </span>
+    <span th:text="${officeid}"></span>
+</div>
+<br>
+<div>
+    <span th:text="${conditionvalue}"></span>
+    <span> - </span>
+    <span th:text="${name}"></span>
+</div>
+<div>
+    <span>Price: $</span>
+    <span th:text="${price}"></span>
+</div>
+<div>
+    <span>Available quantity:</span>
+    <span th:text="${quantity}"></span>
+</div>
+<div>
+    <span>Expiration:</span>
+    <span th:text="${expirationdate}"></span>
+</div>
+<div>
+    <span>Note:</span>
+    <span th:text="${note}"></span>
+</div>
+
+<br>
+<br>
+<br>
+<div>
+    <a th:href="${url}">Take this offer here</a>
+</div>
+
+<br>
+<span>Addresses:</span>
+<table border="1">
+    <tr>
+        <th>Site name</th>
+        <th>Organization ID</th>
+        <th>Address</th>
+    </tr>
+    <tr th:each="whs : ${wareHouseSiteList}">
+        <td th:text="${whs.sitename}"></td>
+        <td th:text="${whs.contact}"></td>
+        <td>
+            <span th:if="${whs.address1}" th:text="${whs.address1}"></span>
+            <span th:if="${whs.address2}">,</span>
+            <span th:if="${whs.address2}" th:text="${whs.address2}"></span>
+            <span th:if="${whs.contact}">,</span>
+            <span th:if="${whs.contact}" th:text="${whs.contact}"></span>
+            <span th:if="${whs.city}">,</span>
+            <span th:if="${whs.city}" th:text="${whs.city}"></span>
+            <span th:if="${whs.state}">,</span>
+            <span th:if="${whs.state}" th:text="${whs.state}"></span>
+            <span th:if="${whs.zip}">,</span>
+            <span th:if="${whs.zip}" th:text="${whs.zip}"></span>
+        </td>
+    </tr>
+</table>
+</table>
+</body>
+</html>
